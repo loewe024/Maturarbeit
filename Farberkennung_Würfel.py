@@ -17,7 +17,8 @@ coordinates = [[[[376,432],[270,272],[190,156],[124,320],[72,456],[116,586],[184
 colors = ["blue", "yellow", "orange", "red", "white", "green"]
 
 
-f = 0.5
+f = 0.2 #relativer Faktor
+a = 255 #absoluter Faktor
 
 boundaries = [[[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]]]
 
@@ -25,22 +26,33 @@ for i in range (2): # coordinates1/2
     for j in range (3): #m1/2/3
         for k in range (3): # colors
             m_c = resized_list[i] [coordinates[i][j][8][0]][coordinates[i][j][8][1]][k]
-            boundaries[j+3*i][k][0] = m_c - m_c*f
-            boundaries[j+3*i][k][1] = m_c + m_c*f
-            if  boundaries[j+3*i][k][0] < 0:
-                boundaries[j+3*i][k][0] = 0
-            if boundaries[j+3*i][k][1] > 255:
-                boundaries[j+3*i][k][1] = 255
+            boundaries[j+3*i][k][0] = m_c - a
+            boundaries[j+3*i][k][1] = m_c + a
+            #if  boundaries[j+3*i][k][0] < 0:
+                #boundaries[j+3*i][k][0] = 0
+            #if boundaries[j+3*i][k][1] > 255:
+                #boundaries[j+3*i][k][1] = 255
 
 for i in range(2): #coordinates1/2
     for j in range(3): #side
         for k in range(9): #tile
-            for l in range(6): #test for six colors
-                var = 0
-                for m in range(3): #BGR
-                    if resized_list[i] [coordinates[i][j][k][0]][coordinates[i][j][k][1]][m] >= boundaries[l][m][0] and  resized_list[i] [coordinates[i][j][k][0]][coordinates[i][j][k][1]][m] <= boundaries[l][m][1]:
-                        var += 1
-                if var == 3:
-                    print(colors[l])
+            extra = 0
+            col = 0
+            while True:
+                num = 0
+                for l in range(6): #test for six colors
+                    var = 0
+                    for m in range(3): #BGR
+                        if resized_list[i] [coordinates[i][j][k][0]][coordinates[i][j][k][1]][m] >= (boundaries[l][m][0] + extra) and  resized_list[i] [coordinates[i][j][k][0]][coordinates[i][j][k][1]][m] <= (boundaries[l][m][1] - extra):
+                            var += 1
+                    if var == 3:
+                        #print(colors[l])
+                        col = l
+                        num += 1
+                if num > 1:
+                    extra += 1
+                else:
+                    break
+            print(colors[col])
             print("-----")
         print("----------")
