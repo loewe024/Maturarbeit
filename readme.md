@@ -56,3 +56,10 @@
 * Programm beginnt mit sehr grossen Grenzen
 * wenn Farbe uneindeutig werden Grenzen so lange verkleinert, bis nur noch eine einzige Farbe übrig bleibt
 * Fazit: 52 von 54 Flächen wurden erkannt, zwei rote Flächen wurden als gelb erkannt
+
+### Version 1.3: alle Farben kommen neun mal vor
+
+####10.08.2019
+
+* wenn eine Farbe zu oft vorkommt, werden die Grenzen so lange wieder vergrössert, bis bei den ersten Flächen andere Farben auftreten und diese werden dann verändert
+* ein gelbes Feld als rot und ein rotes Feld als gelb

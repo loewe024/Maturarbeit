@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 
 cube1 = cv2.imread(r"C:\Users\le\SynologyDrive\Gymnasium\Maturarbeit\Wuerfel_geloest_1.jpg")
 cube2 = cv2.imread(r"C:\Users\le\SynologyDrive\Gymnasium\Maturarbeit\Wuerfel_geloest_2.jpg")
@@ -16,7 +15,6 @@ coordinates = [[[[376,432],[270,272],[190,156],[124,320],[72,456],[116,586],[184
 
 colors = ["blue", "yellow", "orange", "red", "white", "green"]
 tilecol = [[["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"]], [["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"]]]
-extralist = [[[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0]]]
 tilenum = [0, 0, 0, 0, 0, 0]
 
 
@@ -31,10 +29,6 @@ for i in range (2): # coordinates1/2
             m_c = resized_list[i] [coordinates[i][j][8][0]][coordinates[i][j][8][1]][k]
             boundaries[j+3*i][k][0] = m_c - a
             boundaries[j+3*i][k][1] = m_c + a
-            #if  boundaries[j+3*i][k][0] < 0:
-                #boundaries[j+3*i][k][0] = 0
-            #if boundaries[j+3*i][k][1] > 255:
-                #boundaries[j+3*i][k][1] = 255
 
 for i in range(2): #coordinates1/2
     for j in range(3): #side
@@ -49,35 +43,36 @@ for i in range(2): #coordinates1/2
                         if resized_list[i] [coordinates[i][j][k][0]][coordinates[i][j][k][1]][m] >= (boundaries[l][m][0] + extra) and  resized_list[i] [coordinates[i][j][k][0]][coordinates[i][j][k][1]][m] <= (boundaries[l][m][1] - extra):
                             var += 1
                     if var == 3:
-                        #print(colors[l])
                         col = l
                         num += 1
                 if num > 1:
                     extra += 1
                 else:
                     break
-            #print(colors[col])
             tilecol[i][j][k] = colors[col]
-            extralist[i][j][k] = extra
             tilenum[col] += 1
-            #print("-----")
-        #print("----------")
 
 for i in range(6):
+    extra2 = 255
+    stayorchange = [[[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0]]]
+    socvar = 0
+
     while tilenum[i] > 9:
         for j in range(2):
             for k in range(3):
                 for l in range(9):
                     if tilecol[j][k][l] == colors[i]:
-                        extralist[j][k][l] -= 1
+                        extra2 -= 1
                         for m in range(6): #test for six colors
                             var = 0
                             for n in range(3): #BGR
-                                if resized_list[j] [coordinates[j][k][l][0]][coordinates[j][k][l][1]][n] >= (boundaries[m][n][0] + extralist[j][k][l]) and  resized_list[j] [coordinates[j][k][l][0]][coordinates[j][k][l][1]][n] <= (boundaries[m][n][1] - extralist[j][k][l]): #check ALL boundaries
+                                if resized_list[j] [coordinates[j][k][l][0]][coordinates[j][k][l][1]][n] >= (boundaries[m][n][0] + extra2) and  resized_list[j] [coordinates[j][k][l][0]][coordinates[j][k][l][1]][n] <= (boundaries[m][n][1] - extra2):
                                     var += 1
-                            if var == 3 and colors[m] != colors[i] and tilenum[i] > 9 and tilenum[m] < 9:
+                            if var == 3 and colors[m] == colors[i] and socvar < 9 and stayorchange[j][k][l] == 0:
+                                socvar += 1
+                                stayorchange[j][k][l] = 1
+                            if var == 3 and colors[m] != colors[i] and tilenum[i] > 9 and tilenum[m] < 9 and stayorchange[j][k][l] == 0:
                                 tilecol[j][k][l] = colors[m]
                                 tilenum[i] -= 1
                                 tilenum[m] += 1
-
 print(tilecol)
