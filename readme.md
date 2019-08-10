@@ -63,3 +63,10 @@
 
 * wenn eine Farbe zu oft vorkommt, werden die Grenzen so lange wieder vergrössert, bis bei den ersten Flächen andere Farben auftreten und diese werden dann verändert
 * ein gelbes Feld als rot und ein rotes Feld als gelb
+
+###Version 1.4
+
+####10.08.2019
+
+* bei zu vielen Feldern einer Farbe werden nicht die verändert, die am nächsten an einer anderen Farbe sind, sondern die, die am weitesten weg von der aktuellen Farbe sind
+* das erste mal, wo der gelöste Würfel mit guten Lichtverhältnissen komplett richtig erkannt wurde
