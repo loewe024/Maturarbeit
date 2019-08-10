@@ -11,6 +11,8 @@
 * statt Grenzen mit Faktor zu bestimmen absolute Grenzen einfügen
 * bei Grenzen Gross anfangen und dann kleiner werden bis eindeutig
 * wenn uneindeutig Wahrscheinlichkeiten angeben, wo es eher ist
+* wenn von einer Farbe zu viel vorhanden, die, die am wenigsten zutreffen zu neuer Farbe ändern
+* mehrere Bilder aufnehmen und Durchschnitt nehmen
 
 ## Versionen
 

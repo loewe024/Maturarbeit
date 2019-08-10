@@ -15,6 +15,9 @@ resized_list = [resized1, resized2]
 coordinates = [[[[376,432],[270,272],[190,156],[124,320],[72,456],[116,586],[184,746],[280,610],[194,444]],[[546,348],[704,362],[844,378],[724,248],[628,140],[490,108],[334,78],[432,196],[592,218]],[[524,520],[420,690],[322,820],[482,798],[618,780],[718,664],[832,526],[692,526],[586,674]]],[[[376,432],[270,272],[190,156],[124,320],[72,456],[116,586],[184,746],[280,610],[194,444]],[[546,348],[704,362],[844,378],[724,248],[628,140],[490,108],[334,78],[432,196],[592,218]],[[524,520],[420,690],[322,820],[482,798],[618,780],[718,664],[832,526],[692,526],[586,674]]]]
 
 colors = ["blue", "yellow", "orange", "red", "white", "green"]
+tilecol = [[["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"]], [["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"]]]
+extralist = [[[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0]]]
+tilenum = [0, 0, 0, 0, 0, 0]
 
 
 f = 0.2 #relativer Faktor
@@ -53,6 +56,28 @@ for i in range(2): #coordinates1/2
                     extra += 1
                 else:
                     break
-            print(colors[col])
-            print("-----")
-        print("----------")
+            #print(colors[col])
+            tilecol[i][j][k] = colors[col]
+            extralist[i][j][k] = extra
+            tilenum[col] += 1
+            #print("-----")
+        #print("----------")
+
+for i in range(6):
+    while tilenum[i] > 9:
+        for j in range(2):
+            for k in range(3):
+                for l in range(9):
+                    if tilecol[j][k][l] == colors[i]:
+                        extralist[j][k][l] -= 1
+                        for m in range(6): #test for six colors
+                            var = 0
+                            for n in range(3): #BGR
+                                if resized_list[j] [coordinates[j][k][l][0]][coordinates[j][k][l][1]][n] >= (boundaries[m][n][0] + extralist[j][k][l]) and  resized_list[j] [coordinates[j][k][l][0]][coordinates[j][k][l][1]][n] <= (boundaries[m][n][1] - extralist[j][k][l]): #check ALL boundaries
+                                    var += 1
+                            if var == 3 and colors[m] != colors[i] and tilenum[i] > 9 and tilenum[m] < 9:
+                                tilecol[j][k][l] = colors[m]
+                                tilenum[i] -= 1
+                                tilenum[m] += 1
+
+print(tilecol)
