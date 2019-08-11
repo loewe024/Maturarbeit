@@ -15,6 +15,17 @@ coordinates = [[[[376,432],[270,272],[190,156],[124,320],[72,456],[116,586],[184
 
 avgcol = [[[[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]], [[[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]]]
 
+colors = ["white", "green", "red", "yellow", "orange", "blue"]
+
+tilecol = [[["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"]], [["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"]]]
+tilecol_correct = [[["yellow", "blue", "red", "blue", "white", "orange", "green", "yellow", "white"], ["blue", "white", "orange", "green", "red", "yellow", "white", "yellow", "green"], ["red", "green", "orange", "red", "white", "orange", "yellow", "red", "red"]], [["green", "orange", "yellow", "white", "blue", "green", "orange", "orange", "yellow"], ["red", "blue", "orange", "red", "blue", "red", "green", "yellow", "orange"], ["white", "white", "green", "green", "yellow", "blue", "blue", "white", "blue"]]]
+tilenum = [0, 0, 0, 0, 0, 0]
+
+f = 0.2 #relativer Faktor
+a = 255 #absoluter Faktor
+
+boundaries = [[[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]]]
+
 for i in range(2):
     for j in range(3):
         for k in range(9):
@@ -24,14 +35,6 @@ for i in range(2):
                     for n in range(30):
                         col += resized_list[i] [coordinates[i][j][k][0]-15+m][coordinates[i][j][k][1]-15+n][l]
                 avgcol[i][j][k][l] = col/900
-colors = ["white", "green", "red", "yellow", "orange", "blue"]
-tilecol = [[["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"]], [["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"]]]
-tilenum = [0, 0, 0, 0, 0, 0]
-
-f = 0.2 #relativer Faktor
-a = 255 #absoluter Faktor
-
-boundaries = [[[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]], [[0, 0], [0, 0], [0, 0]]]
 
 for i in range (2): # coordinates1/2
     for j in range (3): #m1/2/3
@@ -86,4 +89,5 @@ for i in range(6):
                                 tilenum[i] -= 1
                                 tilenum[m] += 1
 
+print(tilecol_correct)
 print(tilecol)
