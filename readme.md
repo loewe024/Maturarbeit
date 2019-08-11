@@ -12,7 +12,9 @@
 * bei Grenzen Gross anfangen und dann kleiner werden bis eindeutig
 * wenn uneindeutig Wahrscheinlichkeiten angeben, wo es eher ist
 * wenn von einer Farbe zu viel vorhanden, die, die am wenigsten zutreffen zu neuer Farbe ändern
-* mehrere Bilder aufnehmen und Durchschnitt nehmen
+* Einschränkungen: nur vier von einer Farbe auf Ecken/Kanten
+* jede Farbe nur einmal pro Ecke/Kante
+* gegenüberliegende Farben nicht erlaubt auf gleichem Stein
 
 ## Versionen
 
@@ -70,3 +72,10 @@
 
 * bei zu vielen Feldern einer Farbe werden nicht die verändert, die am nächsten an einer anderen Farbe sind, sondern die, die am weitesten weg von der aktuellen Farbe sind
 * das erste mal, wo der gelöste Würfel mit guten Lichtverhältnissen komplett richtig erkannt wurde
+
+### Version 1.5
+
+####11.08.2019
+* nicht mehr einzelne Pixel sondern Durchschnitte von Quadrat mit Seitenlänge 30 Pixel
+* diese Durchschnitte neu in einem Array für Übersichtlichkeit
+* bei ungelöstem Bild noch viele Fehler
