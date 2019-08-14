@@ -79,3 +79,7 @@
 * nicht mehr einzelne Pixel sondern Durchschnitte von Quadrat mit Seitenlänge 30 Pixel
 * diese Durchschnitte neu in einem Array für Übersichtlichkeit
 * bei ungelöstem Bild noch viele Fehler
+
+### Version 1.6
+* HSV statt RGB verwendet (ohne Hue)
+* weiss wurde erkannt, der rest nicht (bsp. Gelb wurde als gelb, orange, blau und grün erkannt)
