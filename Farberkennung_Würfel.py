@@ -106,6 +106,7 @@ for i in range(6): #six colors
 
 
 
+
 #method 2: calculate distance to middle values
 
 #evaluate color of each tile
@@ -131,6 +132,7 @@ for i in range(2):
             for l in range(6):
                 if tilecol_2[i][j][k] == colors[l]:
                     tilenum_2[l] += 1
+
 #correct number of each color
 for i in range(6):
     while tilenum_2[i] > 9:
@@ -158,7 +160,19 @@ for i in range(6):
                 else: counter += 1
 
 
+
+
 #print results
 print(tilecol_correct)
 print(tilecol_1)
 print(tilecol_2)
+
+print("zeigt gelb statt weiss", int(avgcol[0][0][4][0]), int(avgcol[0][0][4][1]), int(avgcol[0][0][4][2]))
+print("zeigt gelb statt weiss", int(avgcol[1][0][3][0]), int(avgcol[1][0][3][1]), int(avgcol[1][0][3][2]))
+print("zeigt gelb statt orange", int(avgcol[0][0][5][0]), int(avgcol[0][0][5][1]), int(avgcol[0][0][5][2]))
+print("zeigt orange statt gelb", int(avgcol[1][1][7][0]), int(avgcol[1][1][7][1]), int(avgcol[1][1][7][2]))
+print("zeigt weiss statt gelb", int(avgcol[0][1][5][0]), int(avgcol[0][1][5][1]), int(avgcol[0][1][5][2]))
+print("zeigt weiss statt gelb", int(avgcol[1][2][4][0]), int(avgcol[1][2][4][1]), int(avgcol[1][2][4][2]))
+print("orange Mitte", int(avgcol[1][1][8][0]), int(avgcol[1][1][8][1]), int(avgcol[1][1][8][2]))
+print("gelb Mitte", int(avgcol[1][0][8][0]), int(avgcol[1][0][8][1]), int(avgcol[1][0][8][2]))
+print("weiss Mitte", int(avgcol[0][0][8][0]), int(avgcol[0][0][8][1]), int(avgcol[0][0][8][2]))
