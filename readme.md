@@ -92,9 +92,19 @@
 ###Version 1.7
 
 ####15.08.2019
+
 * wieder RGB
 * code ein bisschen übersichtlicher gestaltet
 * neue Methode ausprobiert: statt Grenzen direkt den Abstand zu den Mittelpunkten messen
 * noch keine Einschränkungen wie von jeder Farbe neun
 * insgesamt 9 Fehler
 * 8 davon gelb oder weiss falsch erkannt, einmal orange falsch
+
+###Version 1.8
+
+####15.08.2019
+
+* auch bei Methode 2 eingeführt, dass nur noch neun Teile die gleiche Farbe haben können
+* wenn zu viele Teile die gleiche Farbe haben, wird das Teil mit der grössten Distanz verändert
+* noch sechs statt neun Fehler
+* die gleichen Fehler, wie bei Methode 1
