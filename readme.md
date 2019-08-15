@@ -16,17 +16,17 @@
 * jede Farbe nur einmal pro Ecke/Kante
 * gegenüberliegende Farben nicht erlaubt auf gleichem Stein
 
-## Versionen
+##Versionen
 
-### first test
+###first test
 
 * erstes Kennenlernen von opencv
 * erkennt auf einem Bild alle Pixel mit gleichen Farben, wie ein ausgewählter Pixel
 * Grenzen für die erlaubten Farbwerte durch Ausprobieren festgelegt
 
-### Version 1.0
+###Version 1.0
 
-#### 08.08.2019
+####08.08.2019
 
 * Koordinaten Reihenfolge: auf einer Seite vom vordersten Stein im Uhrzeigersinn mit Mittelstein am Schluss
 * Reihenfolge Seiten: oben, links, rechts von Bild 1, dann gleich Bild 2
@@ -36,7 +36,7 @@
 * bei grün kommt weiss/gelb/grün heraus und bei rot kommt rot/orange/weiss/gelb heraus
 * Grenzen bei +- 50%
 
-### Version 1.1
+###Version 1.1
 
 ####09.08.2019
 
@@ -59,7 +59,7 @@
 * wenn Farbe uneindeutig werden Grenzen so lange verkleinert, bis nur noch eine einzige Farbe übrig bleibt
 * Fazit: 52 von 54 Flächen wurden erkannt, zwei rote Flächen wurden als gelb erkannt
 
-### Version 1.3: alle Farben kommen neun mal vor
+###Version 1.3: alle Farben kommen neun mal vor
 
 ####10.08.2019
 
@@ -73,13 +73,28 @@
 * bei zu vielen Feldern einer Farbe werden nicht die verändert, die am nächsten an einer anderen Farbe sind, sondern die, die am weitesten weg von der aktuellen Farbe sind
 * das erste mal, wo der gelöste Würfel mit guten Lichtverhältnissen komplett richtig erkannt wurde
 
-### Version 1.5
+###Version 1.5
 
 ####11.08.2019
+
 * nicht mehr einzelne Pixel sondern Durchschnitte von Quadrat mit Seitenlänge 30 Pixel
 * diese Durchschnitte neu in einem Array für Übersichtlichkeit
-* bei ungelöstem Bild noch viele Fehler
+* bei ungelöstem Bild noch probleme bei gelb/weiss/orange (gesamt 6 Fehler)
+* rot, blau, grün komplett richtig erkannt
 
-### Version 1.6
+###Version 1.6
+
+####14.08.2019
+
 * HSV statt RGB verwendet (ohne Hue)
 * weiss wurde erkannt, der rest nicht (bsp. Gelb wurde als gelb, orange, blau und grün erkannt)
+
+###Version 1.7
+
+####15.08.2019
+* wieder RGB
+* code ein bisschen übersichtlicher gestaltet
+* neue Methode ausprobiert: statt Grenzen direkt den Abstand zu den Mittelpunkten messen
+* noch keine Einschränkungen wie von jeder Farbe neun
+* insgesamt 9 Fehler
+* 8 davon gelb oder weiss falsch erkannt, einmal orange falsch
