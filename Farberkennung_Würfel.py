@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 #prepare images
 cube1 = cv2.imread(r"C:\Users\le\SynologyDrive\Gymnasium\Maturarbeit\Wuerfel_ungeloest_hell_1.jpg")
@@ -39,14 +40,21 @@ for i in range(2):
         for k in range(9):
             for l in range(3):
                 col = 0
+                #cv2.rectangle(resized_list[i], (coordinates[i][j][k][1]-15, coordinates[i][j][k][0]-15), (coordinates[i][j][k][1]+15, coordinates[i][j][k][0]+15), (0,0,0), -1)
                 for m in range(30):
                     for n in range(30):
-                        col += resized_list[i] [coordinates[i][j][k][0]-15+m][coordinates[i][j][k][1]-15+n][l]
+                        col += resized_list[i][coordinates[i][j][k][0]-15+m][coordinates[i][j][k][1]-15+n][l]
                 avgcol[i][j][k][l] = col/900
 
 
 
-
+for i in range(2):
+    for j in range(3):
+        for k in range(9):
+            BGR = np.uint8([[[avgcol[i][j][k][0], avgcol[i][j][k][1], avgcol[i][j][k][2]]]])
+            hsv = cv2.cvtColor(BGR,cv2.COLOR_BGR2HSV)
+            print(hsv)
+        print("----------")
 #method 1: shrinking boundaries
 
 #define boundaries of middle
@@ -176,3 +184,6 @@ print("zeigt weiss statt gelb", int(avgcol[1][2][4][0]), int(avgcol[1][2][4][1])
 print("orange Mitte", int(avgcol[1][1][8][0]), int(avgcol[1][1][8][1]), int(avgcol[1][1][8][2]))
 print("gelb Mitte", int(avgcol[1][0][8][0]), int(avgcol[1][0][8][1]), int(avgcol[1][0][8][2]))
 print("weiss Mitte", int(avgcol[0][0][8][0]), int(avgcol[0][0][8][1]), int(avgcol[0][0][8][2]))
+cv2.imshow('image',resized_list[0])
+cv2.imshow('imaggre',resized_list[1])
+cv2.waitKey(0)
