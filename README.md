@@ -108,3 +108,10 @@
 * wenn zu viele Teile die gleiche Farbe haben, wird das Teil mit der grössten Distanz verändert
 * noch sechs statt neun Fehler
 * die gleichen Fehler, wie bei Methode 1
+
+### Version 1.9
+
+### 15.9.2019
+
+* neues Set-up für Bilderaufnahme
+* Reihenfolge gleich wie bisher, aber bei Bild 2 unten/links/rechts
