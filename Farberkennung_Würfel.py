@@ -3,7 +3,7 @@ import numpy as np
 
 #prepare images
 cube1 = cv2.imread(r"C:\Users\le\SynologyDrive\Gymnasium\Maturarbeit\Wuerfel_ungeloest_neu_1.jpg")
-cube2 = cv2.imread(r"C:\Users\le\SynologyDrive\Gymnasium\Maturarbeit\Wuerfel_ungeloest_neu_2_1.jpg")
+cube2 = cv2.imread(r"C:\Users\le\SynologyDrive\Gymnasium\Maturarbeit\Wuerfel_ungeloest_neu_2.jpg")
 scale_percent = 100 # percent of original size
 width = int(cube1.shape[1] * scale_percent / 100)
 height = int(cube1.shape[0] * scale_percent / 100)
@@ -16,7 +16,7 @@ resized_list = [resized1, resized2]
 #define stuff
 
 #general
-coordinates = [[[[376,354],[329,245],[289,153],[264,240],[243,310],[268,391],[293,489],[329,432],[292,329]],[[474,301],[591,287],[678,270],[607,191],[548,125],[474,118],[371,111],[422,194],[526,195]],[[481,409],[419,479],[375,534],[471,511],[560,491],[614,435],[681,365],[588,389],[520,458]]],[[[395,265],[426,357],[449,429],[479,357],[502,299],[488,227],[467,141],[436,197],[460,283]],[[311,211],[364,149],[407,97],[315,106],[239,114],[189,166],[127,228],[212,224],[268,158]],[[310,307],[213,313],[127,312],[181,383],[227,439],[300,451],[377,465],[350,394],[258,391]]]]
+coordinates = [[[[372,340],[329,245],[279,154],[261,244],[243,310],[268,391],[293,489],[329,432],[292,329]],[[468,279],[585,271],[674,261],[609,185],[548,117],[463,111],[359,105],[406,182],[516,182]],[[473,392],[418,467],[373,529],[469,506],[552,488],[609,431],[681,359],[583,377],[522,447]]],[[[402,278],[430,366],[451,435],[480,366],[504,301],[489,232],[469,147],[439,209],[464,291]],[[324,225],[372,158],[405,106],[320,115],[246,122],[197,169],[133,227],[222,226],[276,163]],[[310,307],[213,313],[127,312],[181,383],[227,439],[300,451],[377,465],[350,394],[258,391]]]]
 avgcol = [[[[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]], [[[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]]]
 colors = ["yellow", "orange", "blue", "white", "red", "green"]
 tilecol_correct = [[["yellow", "blue  ", "red   ", "blue  ", "white ", "orange", "green ", "yellow", "white "], ["blue  ", "white ", "orange", "green ", "red   ", "yellow", "white ", "yellow", "green "], ["red   ", "green ", "orange", "red   ", "white ", "orange", "yellow", "red   ", "red   "]], [["green ", "orange", "yellow", "white ", "blue  ", "green ", "orange", "orange", "yellow"], ["red   ", "blue  ", "orange", "red   ", "blue  ", "red   ", "green ", "yellow", "orange"], ["white ", "white ", "green ", "green ", "yellow", "blue  ", "blue  ", "white ", "blue  "]]]
@@ -40,11 +40,11 @@ for i in range(2):
         for k in range(9):
             for l in range(3):
                 col = 0
-                cv2.rectangle(resized_list[i], (coordinates[i][j][k][1]-12, coordinates[i][j][k][0]-12), (coordinates[i][j][k][1]+12, coordinates[i][j][k][0]+12), (0,0,0), -1)
-                for m in range(25):
-                    for n in range(25):
-                        col += resized_list[i][coordinates[i][j][k][0]-12+m][coordinates[i][j][k][1]-12+n][l]
-                avgcol[i][j][k][l] = col/625
+                #cv2.rectangle(resized_list[i], (coordinates[i][j][k][1]-10, coordinates[i][j][k][0]-10), (coordinates[i][j][k][1]+9, coordinates[i][j][k][0]+9), (0,0,0), -1)
+                for m in range(20):
+                    for n in range(20):
+                        col += resized_list[i][coordinates[i][j][k][0]-10+m][coordinates[i][j][k][1]-10+n][l]
+                avgcol[i][j][k][l] = col/400
 
 
 
