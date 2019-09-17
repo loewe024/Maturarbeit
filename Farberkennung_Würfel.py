@@ -33,7 +33,8 @@ tilecol_2 = [[["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o"
 tilenum_2 = [0, 0, 0, 0, 0, 0]
 distances = [[[[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]], [[[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]]]
 
-
+#hsv or rgb
+hsg = 2 # how many variables to describe the color
 #find average color of tiles
 for i in range(2):
     for j in range(3):
@@ -53,14 +54,18 @@ for i in range(2):
         for k in range(9):
             BGR = np.uint8([[[avgcol[i][j][k][0], avgcol[i][j][k][1], avgcol[i][j][k][2]]]])
             hsv = cv2.cvtColor(BGR,cv2.COLOR_BGR2HSV)
+            print(BGR)
             print(hsv)
+            avgcol[i][j][k][0] = hsv[0][0][0]
+            avgcol[i][j][k][1] = hsv[0][0][2] * 255 / 179
+            #avgcol[i][j][k][2] = hsv[0][0][2]
         print("----------")
 #method 1: shrinking boundaries
 
 #define boundaries of middle
 for i in range (2): # coordinates1/2
     for j in range (3): #m1/2/3
-        for k in range (3): # colors
+        for k in range (hsg): # colors
             m_c = avgcol[i][j][8][k]
             boundaries[j+3*i][k][0] = m_c - a
             boundaries[j+3*i][k][1] = m_c + a
@@ -75,10 +80,10 @@ for i in range(2): #coordinates1/2
                 num = 0
                 for l in range(6): #test for six colors
                     var = 0
-                    for m in range(3): #BGR
+                    for m in range(hsg): #colors
                         if avgcol[i][j][k][m] >= (boundaries[l][m][0] + extra) and  avgcol[i][j][k][m] <= (boundaries[l][m][1] - extra):
                             var += 1
-                    if var == 3:
+                    if var == hsg:
                         col = l
                         num += 1
                 if num > 1:
@@ -101,13 +106,13 @@ for i in range(6): #six colors
                         extra2 -= 1
                         for m in range(6): #test for six colors
                             var = 0
-                            for n in range(3): #BGR
+                            for n in range(hsg): #colors
                                 if avgcol[j][k][l][n] >= (boundaries[m][n][0] + extra2) and  avgcol[j][k][l][n] <= (boundaries[m][n][1] - extra2):
                                     var += 1
-                            if var == 3 and colors[m] == colors[i] and socvar < 9 and stayorchange[j][k][l] == 0:
+                            if var == hsg and colors[m] == colors[i] and socvar < 9 and stayorchange[j][k][l] == 0:
                                 socvar += 1
                                 stayorchange[j][k][l] = 1
-                            if var == 3 and colors[m] != colors[i] and tilenum_1[i] > 9 and tilenum_1[m] < 9 and stayorchange[j][k][l] == 0:
+                            if var == hsg and colors[m] != colors[i] and tilenum_1[i] > 9 and tilenum_1[m] < 9 and stayorchange[j][k][l] == 0:
                                 tilecol_1[j][k][l] = colors[m]
                                 tilenum_1[i] -= 1
                                 tilenum_1[m] += 1
@@ -131,7 +136,7 @@ for i in range(2):
                     l_2 = 1
                     l_3 = l-3
                 dist = 0
-                for m in range(3):
+                for m in range(hsg):
                     dist += (avgcol[i][j][k][m]-avgcol[l_2][l_3][8][m]) ** 2
                 distances[i][j][k][l] = dist
                 if dist < col:
@@ -173,6 +178,7 @@ for i in range(6):
 #print results
 print(tilecol_1)
 print(tilecol_2)
+print(avgcol)
 
 cv2.imshow('image',resized_list[0])
 cv2.imshow('imaggre',resized_list[1])
