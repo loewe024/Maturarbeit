@@ -1,9 +1,10 @@
 import cv2
 import numpy as np
+import math as mt
 
 #prepare images
-cube1 = cv2.imread(r"C:\Users\le\SynologyDrive\Gymnasium\Maturarbeit\Wuerfel_ungeloest_neu_1.jpg")
-cube2 = cv2.imread(r"C:\Users\le\SynologyDrive\Gymnasium\Maturarbeit\Wuerfel_ungeloest_neu_2.jpg")
+cube1 = cv2.imread(r"C:\Users\le\SynologyDrive\Gymnasium\Maturarbeit\Wuerfel_normal_Test_2_2_1.jpg")
+cube2 = cv2.imread(r"C:\Users\le\SynologyDrive\Gymnasium\Maturarbeit\Wuerfel_normal_Test_2_2_2.jpg")
 scale_percent = 100 # percent of original size
 width = int(cube1.shape[1] * scale_percent / 100)
 height = int(cube1.shape[0] * scale_percent / 100)
@@ -18,8 +19,11 @@ resized_list = [resized1, resized2]
 #general
 coordinates = [[[[372,340],[329,245],[279,154],[261,244],[243,310],[268,391],[293,489],[329,432],[292,329]],[[468,279],[585,271],[674,261],[609,185],[548,117],[463,111],[359,105],[406,182],[516,182]],[[473,392],[418,467],[373,529],[469,506],[552,488],[609,431],[681,359],[583,377],[522,447]]],[[[402,278],[430,366],[451,435],[480,366],[504,301],[489,232],[469,147],[439,209],[464,291]],[[324,225],[372,158],[405,106],[320,115],[246,122],[197,169],[133,227],[222,226],[276,163]],[[310,307],[213,313],[127,312],[181,383],[227,439],[300,451],[377,465],[350,394],[258,391]]]]
 avgcol = [[[[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]], [[[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]]]
-colors = ["yellow", "orange", "blue", "white", "red", "green"]
-tilecol_correct = [[["yellow", "blue  ", "red   ", "blue  ", "white ", "orange", "green ", "yellow", "white "], ["blue  ", "white ", "orange", "green ", "red   ", "yellow", "white ", "yellow", "green "], ["red   ", "green ", "orange", "red   ", "white ", "orange", "yellow", "red   ", "red   "]], [["green ", "orange", "yellow", "white ", "blue  ", "green ", "orange", "orange", "yellow"], ["red   ", "blue  ", "orange", "red   ", "blue  ", "red   ", "green ", "yellow", "orange"], ["white ", "white ", "green ", "green ", "yellow", "blue  ", "blue  ", "white ", "blue  "]]]
+colors = ["g", "o", "y", "b", "r", "w"]
+tilecol_correct_1_1 = [[["r", "r", "o", "w", "w", "y", "o", "r", "w"], ["y", "y", "g", "y", "y", "w", "g", "w", "g"], ["b", "g", "g", "y", "r", "o", "w", "g", "r"]], [["r", "b", "b", "r", "r", "g", "b", "w", "y"], ["y", "g", "w", "o", "w", "b", "b", "b", "b"], ["g", "r", "o", "b", "y", "o", "o", "o", "o"]]]
+tilecol_correct_1_2 = [[["r", "b", "b", "r", "r", "g", "b", "w", "y"], ["g", "r", "o", "b", "y", "o", "o", "o", "o"], ["y", "g", "w", "o", "w", "b", "b", "b", "b"]], [["r", "r", "o", "w", "w", "y", "o", "r", "w"], ["b", "g", "g", "y", "r", "o", "w", "g", "r"], ["y", "y", "g", "y", "y", "w", "g", "w", "g"]]]
+tilecol_correct_2_1 = [[["y", "r", "o", "o", "b", "r", "o", "r", "b"], ["r", "w", "g", "o", "y", "o", "g", "b", "w"], ["g", "g", "w", "b", "w", "g", "o", "g", "r"]], [["w", "r", "r", "w", "w", "y", "g", "o", "g"], ["b", "g", "r", "w", "b", "w", "y", "b", "y"], ["r", "y", "o", "y", "y", "b", "b", "y", "o"]]]
+tilecol_correct_2_2 = [[["w", "r", "r", "w", "w", "y", "g", "o", "g"], ["r", "y", "o", "y", "y", "b", "b", "y", "o"], ["b", "g", "r", "w", "b", "w", "y", "b", "y"]], [["y", "r", "o", "o", "b", "r", "o", "r", "b"], ["g", "g", "w", "b", "w", "g", "o", "g", "r"], ["r", "w", "g", "o", "y", "o", "g", "b", "w"]]]
 
 #method 1
 tilecol_1 = [[["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"]], [["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"]]]
@@ -34,7 +38,7 @@ tilenum_2 = [0, 0, 0, 0, 0, 0]
 distances = [[[[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]], [[[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]]]
 
 #hsv or rgb
-hsg = 2 # how many variables to describe the color
+hsg = 3 # how many variables to describe the color
 #find average color of tiles
 for i in range(2):
     for j in range(3):
@@ -54,12 +58,12 @@ for i in range(2):
         for k in range(9):
             BGR = np.uint8([[[avgcol[i][j][k][0], avgcol[i][j][k][1], avgcol[i][j][k][2]]]])
             hsv = cv2.cvtColor(BGR,cv2.COLOR_BGR2HSV)
-            print(BGR)
-            print(hsv)
-            avgcol[i][j][k][0] = hsv[0][0][0]
-            avgcol[i][j][k][1] = hsv[0][0][2] * 255 / 179
+            #print(BGR)
+            #print(hsv)
+            #avgcol[i][j][k][0] = hsv[0][0][0] * 255 / 179
+            #avgcol[i][j][k][1] = hsv[0][0][1]
             #avgcol[i][j][k][2] = hsv[0][0][2]
-        print("----------")
+        #print("----------")
 #method 1: shrinking boundaries
 
 #define boundaries of middle
@@ -138,6 +142,7 @@ for i in range(2):
                 dist = 0
                 for m in range(hsg):
                     dist += (avgcol[i][j][k][m]-avgcol[l_2][l_3][8][m]) ** 2
+                    #dist += mt.sqrt((avgcol[i][j][k][m]-avgcol[l_2][l_3][8][m]) ** 2)
                 distances[i][j][k][l] = dist
                 if dist < col:
                     col = dist
@@ -174,11 +179,27 @@ for i in range(6):
 
 
 
+error_1 = 0
+error_2 = 0
+for i in range(2):
+    for j in range(3):
+        for k in range(9):
+            if tilecol_1[i][j][k] != tilecol_correct_2_2[i][j][k]:
+                error_1 += 1
 
+
+for i in range(2):
+    for j in range(3):
+        for k in range(9):
+            if tilecol_2[i][j][k] != tilecol_correct_2_2[i][j][k]:
+                error_2 += 1
 #print results
+print(tilecol_correct_2_2)
 print(tilecol_1)
 print(tilecol_2)
-print(avgcol)
+print(tilecol_correct_2_2)
+print(error_1)
+print(error_2)
 
 cv2.imshow('image',resized_list[0])
 cv2.imshow('imaggre',resized_list[1])
