@@ -123,3 +123,14 @@ allgemeine Analyse von HSV:
 * bei dunklem Bild ist Saturation bei allen Farben ausser weiss fast maximal, bei weiss leicht höher
 * Hue verändert sich bei Dunkelheit nicht viel
 * Value sinkt bei allen sehr stark ab
+
+### neues File
+
+#### 21.9.2019
+
+* zuerst schauen, ob eine Farbe des Würfels weiss ist
+* wenn ja, dann zuerst die Mitte und acht äusseren Felder mit der geringsten Saturation herausfinden
+* danach die verbliebenen Teile wie vorher mit Methode 2 zuordnen
+* bei den Bildern, die vorher zwei Fehler hatten, nun keine Fehler mehr
+* bei den Bildern mit vorher 15 Fehlern nun noch zwei Fehler
+* rot und orange können noch verwechselt werden
