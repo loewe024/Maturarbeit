@@ -75,18 +75,25 @@ if white_question == 1:
                 midvar2 = j
             for k in range(8):
                 biggestsat = 0
-                biggestsatpos = 0
+                biggestsatpos = 100
                 for l in range(8):
                     if avgcol[i][j][k][1] < whiteout[l] and whiteout[l] > biggestsat:
                         biggestsat = whiteout[l]
                         biggestsatpos = l
-                whiteout[biggestsatpos] = avgcol[i][j][k][1]
-                whiteoutvar1[biggestsatpos] = i
-                whiteoutvar2[biggestsatpos] = j
-                whiteoutvar3[biggestsatpos] = k
+                if biggestsatpos < 100:
+                    whiteout[biggestsatpos] = avgcol[i][j][k][1]
+                    whiteoutvar1[biggestsatpos] = i
+                    whiteoutvar2[biggestsatpos] = j
+                    whiteoutvar3[biggestsatpos] = k
     tilecol[midvar1][midvar2][8] = "w"
-    for i in range(7):
+    for i in range(8):
         tilecol[whiteoutvar1[i]][whiteoutvar2[i]][whiteoutvar3[i]] = "w"
 
 print(tilecol)
+print(tilecol_correct_2_1)
+
+
+cv2.imshow('image',resized_list[0])
+cv2.imshow('imaggre',resized_list[1])
+cv2.waitKey(0)
 
