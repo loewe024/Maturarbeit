@@ -26,7 +26,7 @@ tilecol_correct_2_1 = [[["y", "r", "o", "o", "b", "r", "o", "r", "b"], ["r", "w"
 tilecol_correct_2_2 = [[["w", "r", "r", "w", "w", "y", "g", "o", "g"], ["r", "y", "o", "y", "y", "b", "b", "y", "o"], ["b", "g", "r", "w", "b", "w", "y", "b", "y"]], [["y", "r", "o", "o", "b", "r", "o", "r", "b"], ["g", "g", "w", "b", "w", "g", "o", "g", "r"], ["r", "w", "g", "o", "y", "o", "g", "b", "w"]]]
 tilecol = [[["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"]], [["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"]]]
 
-#ose white
+#lose white
 white_question = 0
 whitemid = 256
 midvar1 = 0
@@ -35,6 +35,11 @@ whiteout = [256, 256, 256, 256, 256, 256, 256, 256]
 whiteoutvar1 = [0, 0, 0, 0, 0, 0, 0, 0]
 whiteoutvar2 = [0, 0, 0, 0, 0, 0, 0, 0]
 whiteoutvar3 = [0, 0, 0, 0, 0, 0, 0, 0]
+
+#evaluate
+tilenum = [0, 0, 0, 0, 0, 0]
+distances = [[[[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]], [[[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]]]
+varnum = 1 #how many variables to find color (H, S, V, R, G, B)
 
 
 
@@ -86,12 +91,74 @@ if white_question == 1:
                     whiteoutvar2[biggestsatpos] = j
                     whiteoutvar3[biggestsatpos] = k
     tilecol[midvar1][midvar2][8] = "w"
+    tilenum[3 * midvar1 + midvar2] = 9
     for i in range(8):
         tilecol[whiteoutvar1[i]][whiteoutvar2[i]][whiteoutvar3[i]] = "w"
 
+#evaluate color of each tile
+for i in range(2):
+    for j in range(3):
+        for k in range(9):
+            if tilecol[i][j][k] != "w":
+                col = 200000
+                for l in range(6):
+                    l_2 = 0
+                    l_3 = 0
+                    if l - 3 < 0:
+                        l_3 = l
+                    else:
+                        l_2 = 1
+                        l_3 = l-3
+                    if tilecol[l_2][l_3][8] != "w":
+                        dist = 0
+                        for m in range(varnum):
+                            dist += (avgcol[i][j][k][m]-avgcol[l_2][l_3][8][m]) ** 2
+                            #dist += mt.sqrt((avgcol[i][j][k][m]-avgcol[l_2][l_3][8][m]) ** 2)
+                        distances[i][j][k][l] = dist
+                        if dist < col:
+                            col = dist
+                            tilecol[i][j][k] = colors[l]
+                for l in range(6):
+                    if tilecol[i][j][k] == colors[l]:
+                        tilenum[l] += 1
+
+#correct number of each color
+for i in range(6):
+    while tilenum[i] > 9:
+        a1 = 0
+        a2 = 0
+        a3 = 0
+        counter = 0
+        big_dist = 0
+        breaker = 0
+        for j in range(2):
+            for k in range(3):
+                for l in range(9):
+                    if tilecol[j][k][l] == colors[i] and distances[j][k][l][i] > big_dist:
+                        big_dist = distances[j][k][l][i]
+                        a1 = j
+                        a2 = k
+                        a3 = l
+        while breaker == 0:
+            for j in range(6):
+                if tilenum[j] < 9 and distances[a1][a2][a3][j] < counter:
+                    tilecol[a1][a2][a3] = colors[j]
+                    tilenum[i] -= 1
+                    tilenum[j] += 1
+                    breaker = 1
+                else: counter += 1
+
+#calculate number of errors
+error = 0
+for i in range(2):
+    for j in range(3):
+        for k in range(9):
+            if tilecol[i][j][k] != tilecol_correct_2_1[i][j][k]:
+                error += 1
+
 print(tilecol)
 print(tilecol_correct_2_1)
-
+print(error)
 
 cv2.imshow('image',resized_list[0])
 cv2.imshow('imaggre',resized_list[1])
