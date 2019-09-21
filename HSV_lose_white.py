@@ -62,13 +62,13 @@ for i in range(2):
             BGR = np.uint8([[[avgcol[i][j][k][0], avgcol[i][j][k][1], avgcol[i][j][k][2]]]])
             hsv = cv2.cvtColor(BGR,cv2.COLOR_BGR2HSV)
             #print(BGR)
-            #print(hsv)
+            print(hsv)
             avgcol[i][j][k][0] = hsv[0][0][0] * 255 / 179
             avgcol[i][j][k][1] = hsv[0][0][1]
             avgcol[i][j][k][2] = hsv[0][0][2]
             if avgcol[i][j][k][1] < 50:
                 white_question = 1
-        #print("----------")
+        print("----------")
 
 #lose white
 if white_question == 1:

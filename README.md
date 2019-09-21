@@ -134,3 +134,5 @@ allgemeine Analyse von HSV:
 * bei den Bildern, die vorher zwei Fehler hatten, nun keine Fehler mehr
 * bei den Bildern mit vorher 15 Fehlern nun noch zwei Fehler
 * rot und orange können noch verwechselt werden
+* da Hue von 0-360° ist (kreisförmig) muss dies noch eingefügt werden, da 1 und 359 sehr ähnlich sind, aber im moment sehr weit auseinander liegen
+* ist möglicherweise Grund für rot Orange Verwechslung, da diese an der Grenze sind
