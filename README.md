@@ -111,7 +111,15 @@
 
 ### Version 1.9
 
-### 15.9.2019
+#### 15.9.2019
 
 * neues Set-up für Bilderaufnahme
 * Reihenfolge gleich wie bisher, aber bei Bild 2 unten/links/rechts
+
+
+#### 21.9.2019
+allgemeine Analyse von HSV:
+* wenn saturation sehr Tief, dann ist es Zufall, was für Hue der Computer erkennt
+* bei dunklem Bild ist Saturation bei allen Farben ausser weiss fast maximal, bei weiss leicht höher
+* Hue verändert sich bei Dunkelheit nicht viel
+* Value sinkt bei allen sehr stark ab
