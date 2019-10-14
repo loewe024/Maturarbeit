@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
-
+from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
+import matplotlib.pyplot as plt
 
 #prepare images
 cube1 = cv2.imread(r"C:\Users\le\SynologyDrive\Gymnasium\Maturarbeit\Wuerfel_normal_Test_1_1_1.jpg")
@@ -62,7 +63,7 @@ for i in range(2):
             BGR = np.uint8([[[avgcol[i][j][k][0], avgcol[i][j][k][1], avgcol[i][j][k][2]]]])
             hsv = cv2.cvtColor(BGR,cv2.COLOR_BGR2HSV)
             #print(BGR)
-            print(hsv)
+            #print(hsv)
             avgcol[i][j][k][0] = hsv[0][0][0] * 255 / 179
             avgcol[i][j][k][1] = hsv[0][0][1]
             avgcol[i][j][k][2] = hsv[0][0][2]
@@ -112,7 +113,10 @@ for i in range(2):
                     if tilecol[l_2][l_3][8] != "w":
                         dist = 0
                         for m in range(varnum):
-                            dist += (avgcol[i][j][k][m]-avgcol[l_2][l_3][8][m]) ** 2
+                            if avgcol[i][j][k][m]-avgcol[l_2][l_3][8][m] > 113:
+                                dist += 256 -(avgcol[i][j][k][m]-avgcol[l_2][l_3][8][m])
+                            else:
+                                dist += (avgcol[i][j][k][m]-avgcol[l_2][l_3][8][m]) ** 2
                             #dist += mt.sqrt((avgcol[i][j][k][m]-avgcol[l_2][l_3][8][m]) ** 2)
                         distances[i][j][k][l] = dist
                         if dist < col:
@@ -156,6 +160,29 @@ for i in range(2):
             if tilecol[i][j][k] != tilecol_correct_1_1[i][j][k]:
                 error += 1
 
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+
+for i in range(2):
+    for j in range(3):
+        for k in range(9):
+            if tilecol_correct_1_1[i][j][k] == "r":
+                #print(avgcol[i][j][k], "r")
+                ax.scatter(avgcol[i][j][k][0], avgcol[i][j][k][1], avgcol[i][j][k][2], color = 'red', marker = 'o')
+            elif tilecol_correct_1_1[i][j][k] == "o":
+                ax.scatter(avgcol[i][j][k][0], avgcol[i][j][k][1], avgcol[i][j][k][2], color = 'orange', marker = 'o')
+                #print(avgcol[i][j][k], "o")
+
+for k in range(7):
+    for j in range(7):
+        ax.plot([0, 256], [50*j, 50*j], [50*k, 50*k], color = "grey", linestyle = ":")
+        ax.plot([50*j, 50*j], [0, 256], [50*k, 50*k], color = "grey", linestyle = ":")
+        ax.plot([50*k, 50*k], [50*j, 50*j], [0, 256], color = "grey", linestyle = ":")
+
+ax.grid(True)
+plt.show()
 print(tilecol)
 print(tilecol_correct_1_1)
 print(error)
