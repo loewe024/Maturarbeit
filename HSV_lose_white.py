@@ -126,7 +126,7 @@ for i in range(2):
                 for l in range(6):
                     if tilecol[i][j][k] == colors[l]:
                         tilenum[l] += 1
-
+print(tilecol)
 #correct number of each color
 for i in range(6):
     while tilenum[i] > 9:
