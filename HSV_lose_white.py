@@ -153,6 +153,34 @@ for i in range(6):
                     breaker = 1
                 else: counter += 1
 
+
+#method 2 for correct number
+for i in range(6):
+    while tilenum[i] > 9:
+        a1 = 0
+        a2 = 0
+        a3 = 0
+        col = 0
+        counter = 0
+        small_dist = 99999999
+        breaker = 0
+        for j in range(2):
+            for k in range(3):
+                for l in range(9):
+                    if tilecol[j][k][l] == colors[i]:
+                        for m in range(6):
+                            if tilenum[m] < 9 and distances[j][k][l][m] < small_dist:
+                                small_dist = distances[j][k][l][m]
+                                a1 = j
+                                a2 = k
+                                a3 = l
+                                col = m
+        tilecol[a1][a2][a3] = colors[col]
+        tilenum[i] -= 1
+        tilenum[col] += 1
+
+
+
 #calculate number of errors
 error = 0
 for i in range(2):
