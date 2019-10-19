@@ -157,6 +157,60 @@ for i in range(6):
         tilenum[col] += 1
 
 
+#probability
+p = 1
+knee = 0.25 # ratio at which probability is 99%
+const = np.log(100) / knee
+for i in range(6):
+    if i > 2:
+        i1 = 1
+        i2 = i-3
+    else:
+        i1 = 0
+        i2 = i
+    for j in range(i):
+        if j > 2:
+            j1 = 1
+            j2 = i-3
+        else:
+            j1 = 0
+            j2 = j
+        small_disti = 9999999
+        small_distj = 9999999
+        ai1 = 0
+        ai2 = 0
+        ai3 = 0
+        aj1 = 0
+        aj2 = 0
+        aj3 = 0
+        dist_out = 500
+        dist_mid = 500
+        for k in range(2):
+            for l in range(3):
+                for m in range(9):
+                    if tilecol[k][l][m] == colors[i] and distances[k][l][m][j] < small_disti:
+                        small_disti = distances[k][l][m][j]
+                        ai1 = k
+                        ai2 = l
+                        ai3 = m
+                    elif tilecol[k][l][m] == colors[j] and distances[k][l][m][i] < small_distj:
+                        small_distj = distances[k][l][m][i]
+                        aj1 = k
+                        aj2 = l
+                        aj3 = m
+        dist_out = abs(avgcol[ai1][ai2][ai3][0] - avgcol[aj1][aj2][aj3][0])
+        if dist_out > 113:
+            dist_out = 256 - dist_out
+        dist_mid = abs(avgcol[i1][i2][8][0] - avgcol[j1][j2][8][0])
+        if dist_mid > 113:
+            dist_mid = 256 - dist_mid
+        ratio = dist_out / dist_mid
+        prob = 1 / (1+mt.e**(-(const*ratio)))
+        print(prob)
+        p *= prob
+
+print(p)
+
 
 #calculate number of errors
 error = 0
@@ -191,7 +245,7 @@ for k in range(7):
 
 
 ax.grid(True)
-plt.show()
+#plt.show()
 print(tilecol)
 print(tilecol_correct_1_1)
 print(error)
