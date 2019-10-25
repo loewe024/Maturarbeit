@@ -3,6 +3,7 @@ import numpy as np
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 import matplotlib.pyplot as plt
 import math as mt
+import sys
 
 #prepare images
 cube1 = cv2.imread("Wuerfel_normal_Test_1_1_1.jpg")
@@ -31,12 +32,22 @@ tilecol = [[["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", 
 #lose white
 white_question = 0
 whitemid = 256
-midvar1 = 0
-midvar2 = 0
+whitemidvar1 = 0
+whitemidvar2 = 0
 whiteout = [256, 256, 256, 256, 256, 256, 256, 256]
 whiteoutvar1 = [0, 0, 0, 0, 0, 0, 0, 0]
 whiteoutvar2 = [0, 0, 0, 0, 0, 0, 0, 0]
 whiteoutvar3 = [0, 0, 0, 0, 0, 0, 0, 0]
+
+#lose black
+black_question = 0
+blackmid = 256
+blackmidvar1 = 0
+blackmidvar2 = 0
+blackout = [256, 256, 256, 256, 256, 256, 256, 256]
+blackoutvar1 = [0, 0, 0, 0, 0, 0, 0, 0]
+blackoutvar2 = [0, 0, 0, 0, 0, 0, 0, 0]
+blackoutvar3 = [0, 0, 0, 0, 0, 0, 0, 0]
 
 #evaluate
 tilenum = [0, 0, 0, 0, 0, 0]
@@ -69,17 +80,18 @@ for i in range(2):
             avgcol[i][j][k][1] = hsv[0][0][1]
             avgcol[i][j][k][2] = hsv[0][0][2]
             if avgcol[i][j][k][1] < 50:
-                white_question = 1
+                white_question += 1
+            if avgcol[i][j][k][2] < 50:
+                black_question += 1
         print("----------")
-
 #lose white
-if white_question == 1:
+if white_question == 9:
     for i in range(2):
         for j in range(3):
             if avgcol[i][j][8][1] < whitemid:
                 whitemid = avgcol[i][j][8][1]
-                midvar1 = i
-                midvar2 = j
+                whitemidvar1 = i
+                whitemidvar2 = j
             for k in range(8):
                 biggestsat = 0
                 biggestsatpos = 100
@@ -92,11 +104,40 @@ if white_question == 1:
                     whiteoutvar1[biggestsatpos] = i
                     whiteoutvar2[biggestsatpos] = j
                     whiteoutvar3[biggestsatpos] = k
-    tilecol[midvar1][midvar2][8] = "w"
-    tilenum[3 * midvar1 + midvar2] = 9
+    tilecol[whitemidvar1][whitemidvar2][8] = "w"
+    tilenum[3 * whitemidvar1 + whitemidvar2] = 9
     for i in range(8):
         tilecol[whiteoutvar1[i]][whiteoutvar2[i]][whiteoutvar3[i]] = "w"
+elif white_question != 0:
+   sys.exit("ERROR")
 
+
+#lose black
+if black_question == 9:
+    for i in range(2):
+        for j in range(3):
+            if avgcol[i][j][8][2] < blackmid:
+                blackmid = avgcol[i][j][8][2]
+                blackmidvar1 = i
+                blackmidvar2 = j
+            for k in range(8):
+                biggestsat = 0
+                biggestsatpos = 100
+                for l in range(8):
+                    if avgcol[i][j][k][2] < blackout[l] and blackout[l] > biggestsat:
+                        biggestsat = blackout[l]
+                        biggestsatpos = l
+                if biggestsatpos < 100:
+                    blackout[biggestsatpos] = avgcol[i][j][k][2]
+                    blackoutvar1[biggestsatpos] = i
+                    blackoutvar2[biggestsatpos] = j
+                    blackoutvar3[biggestsatpos] = k
+    tilecol[blackmidvar1][blackmidvar2][8] = "b"
+    tilenum[3 * blackmidvar1 + blackmidvar2] = 9
+    for i in range(8):
+        tilecol[blackoutvar1[i]][blackoutvar2[i]][blackoutvar3[i]] = "b"
+elif black_question != 0:
+    sys.exit("ERROR!")
 #evaluate color of each tile
 for i in range(2):
     for j in range(3):
