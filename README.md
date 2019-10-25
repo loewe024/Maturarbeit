@@ -136,3 +136,14 @@ allgemeine Analyse von HSV:
 * rot und orange können noch verwechselt werden
 * da Hue von 0-360° ist (kreisförmig) muss dies noch eingefügt werden, da 1 und 359 sehr ähnlich sind, aber im moment sehr weit auseinander liegen
 * ist möglicherweise Grund für rot Orange Verwechslung, da diese an der Grenze sind
+
+#### 14.10.2019 - 20.10.2019
+* kleine Analyse von beiden Methoden für Zuordnung
+* Methode 1 besser bei schlechten Bildern, wo einige Felder sehr weit weg sind vom richtigen Wert
+* Methode 2 besser bei eher guten Bildern mit kleinen Abweichungen
+* Wahrscheinlichkeit für korrektes Erkennen eingeführt
+* der Stein der zu Mitte 1 gehört und am nächsten bei Mitte 2 ist und der Stein, der zu Mitte 2 gehört, der am nächsten bei Mitte 1 ist, werden genommen und die Differenz der Hue-Werte berechnet
+* dieser wird durch die Differenz der Hue-Werte der beiden Mitten geteilt und je grösser die Zahl ist, desto kleiner ist die Wahrscheinlichkeit, dass es stimmt
+* logistische Funktion für die Wahrscheinlichkeit verwendet
+* Erkenntnis aus Bildern: wenn Bild reflektiert, gibt es Verfälschungen, die genug gross sind, um rot und orange zu verwechseln
+
