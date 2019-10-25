@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import math as mt
 
 #prepare images
-cube1 = cv2.imread(r"C:\Users\le\SynologyDrive\Gymnasium\Maturarbeit\Wuerfel_normal_Test_1_1_1.jpg")
-cube2 = cv2.imread(r"C:\Users\le\SynologyDrive\Gymnasium\Maturarbeit\Wuerfel_normal_Test_1_1_2.jpg")
+cube1 = cv2.imread("Wuerfel_normal_Test_1_1_1.jpg")
+cube2 = cv2.imread("Wuerfel_normal_Test_1_1_2.jpg")
 scale_percent = 100 # percent of original size
 width = int(cube1.shape[1] * scale_percent / 100)
 height = int(cube1.shape[0] * scale_percent / 100)
@@ -171,7 +171,7 @@ for i in range(6):
     for j in range(i):
         if j > 2:
             j1 = 1
-            j2 = i-3
+            j2 = j-3
         else:
             j1 = 0
             j2 = j
