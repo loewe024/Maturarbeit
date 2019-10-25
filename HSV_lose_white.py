@@ -84,6 +84,39 @@ for i in range(2):
             if avgcol[i][j][k][2] < 50:
                 black_question += 1
         print("----------")
+
+
+#lose black
+if black_question == 9:
+    for i in range(2):
+        for j in range(3):
+            if avgcol[i][j][8][2] < blackmid:
+                blackmid = avgcol[i][j][8][2]
+                blackmidvar1 = i
+                blackmidvar2 = j
+            for k in range(8):
+                biggestsat = 0
+                biggestsatpos = 100
+                for l in range(8):
+                    if avgcol[i][j][k][2] < blackout[l] and blackout[l] > biggestsat:
+                        biggestsat = blackout[l]
+                        biggestsatpos = l
+                if biggestsatpos < 100:
+                    blackout[biggestsatpos] = avgcol[i][j][k][2]
+                    blackoutvar1[biggestsatpos] = i
+                    blackoutvar2[biggestsatpos] = j
+                    blackoutvar3[biggestsatpos] = k
+    tilecol[blackmidvar1][blackmidvar2][8] = "ba"
+    tilenum[3 * blackmidvar1 + blackmidvar2] = 9
+    for i in range(8):
+        tilecol[blackoutvar1[i]][blackoutvar2[i]][blackoutvar3[i]] = "ba"
+        if avgcol[blackoutvar1[i]][blackoutvar2[i]][blackoutvar3[i]][1] < 50:
+            avgcol[blackoutvar1[i]][blackoutvar2[i]][blackoutvar3[i]][1] = 255
+            white_question -= 1
+elif black_question != 0:
+    sys.exit("ERROR!")
+
+
 #lose white
 if white_question == 9:
     for i in range(2):
@@ -112,37 +145,11 @@ elif white_question != 0:
    sys.exit("ERROR")
 
 
-#lose black
-if black_question == 9:
-    for i in range(2):
-        for j in range(3):
-            if avgcol[i][j][8][2] < blackmid:
-                blackmid = avgcol[i][j][8][2]
-                blackmidvar1 = i
-                blackmidvar2 = j
-            for k in range(8):
-                biggestsat = 0
-                biggestsatpos = 100
-                for l in range(8):
-                    if avgcol[i][j][k][2] < blackout[l] and blackout[l] > biggestsat:
-                        biggestsat = blackout[l]
-                        biggestsatpos = l
-                if biggestsatpos < 100:
-                    blackout[biggestsatpos] = avgcol[i][j][k][2]
-                    blackoutvar1[biggestsatpos] = i
-                    blackoutvar2[biggestsatpos] = j
-                    blackoutvar3[biggestsatpos] = k
-    tilecol[blackmidvar1][blackmidvar2][8] = "b"
-    tilenum[3 * blackmidvar1 + blackmidvar2] = 9
-    for i in range(8):
-        tilecol[blackoutvar1[i]][blackoutvar2[i]][blackoutvar3[i]] = "b"
-elif black_question != 0:
-    sys.exit("ERROR!")
 #evaluate color of each tile
 for i in range(2):
     for j in range(3):
         for k in range(9):
-            if tilecol[i][j][k] != "w":
+            if tilecol[i][j][k] != "w" and tilecol[i][j][k] != "ba":
                 col = 200000
                 for l in range(6):
                     l_2 = 0
@@ -152,7 +159,7 @@ for i in range(2):
                     else:
                         l_2 = 1
                         l_3 = l-3
-                    if tilecol[l_2][l_3][8] != "w":
+                    if tilecol[l_2][l_3][8] != "w" and tilecol[l_2][l_3][8] != "ba":
                         dist = 0
                         for m in range(varnum):
                             if abs(avgcol[i][j][k][m]-avgcol[l_2][l_3][8][m]) > 113:
@@ -203,52 +210,54 @@ p = 1
 knee = 0.25 # ratio at which probability is 99%
 const = np.log(100) / knee
 for i in range(6):
-    if i > 2:
-        i1 = 1
-        i2 = i-3
-    else:
-        i1 = 0
-        i2 = i
-    for j in range(i):
-        if j > 2:
-            j1 = 1
-            j2 = j-3
+    if colors[i] != "ba" and colors[i] != "w":
+        if i > 2:
+            i1 = 1
+            i2 = i-3
         else:
-            j1 = 0
-            j2 = j
-        small_disti = 9999999
-        small_distj = 9999999
-        ai1 = 0
-        ai2 = 0
-        ai3 = 0
-        aj1 = 0
-        aj2 = 0
-        aj3 = 0
-        dist_out = 500
-        dist_mid = 500
-        for k in range(2):
-            for l in range(3):
-                for m in range(9):
-                    if tilecol[k][l][m] == colors[i] and distances[k][l][m][j] < small_disti:
-                        small_disti = distances[k][l][m][j]
-                        ai1 = k
-                        ai2 = l
-                        ai3 = m
-                    elif tilecol[k][l][m] == colors[j] and distances[k][l][m][i] < small_distj:
-                        small_distj = distances[k][l][m][i]
-                        aj1 = k
-                        aj2 = l
-                        aj3 = m
-        dist_out = abs(avgcol[ai1][ai2][ai3][0] - avgcol[aj1][aj2][aj3][0])
-        if dist_out > 113:
-            dist_out = 256 - dist_out
-        dist_mid = abs(avgcol[i1][i2][8][0] - avgcol[j1][j2][8][0])
-        if dist_mid > 113:
-            dist_mid = 256 - dist_mid
-        ratio = dist_out / dist_mid
-        prob = 1 / (1+mt.e**(-(const*ratio)))
-        print(prob)
-        p *= prob
+            i1 = 0
+            i2 = i
+        for j in range(i):
+            if colors[j] != "ba" and colors[j] != "w":
+                if j > 2:
+                    j1 = 1
+                    j2 = j-3
+                else:
+                    j1 = 0
+                    j2 = j
+                small_disti = 9999999
+                small_distj = 9999999
+                ai1 = 0
+                ai2 = 0
+                ai3 = 0
+                aj1 = 0
+                aj2 = 0
+                aj3 = 0
+                dist_out = 500
+                dist_mid = 500
+                for k in range(2):
+                    for l in range(3):
+                        for m in range(9):
+                            if tilecol[k][l][m] == colors[i] and distances[k][l][m][j] < small_disti:
+                                small_disti = distances[k][l][m][j]
+                                ai1 = k
+                                ai2 = l
+                                ai3 = m
+                            elif tilecol[k][l][m] == colors[j] and distances[k][l][m][i] < small_distj:
+                                small_distj = distances[k][l][m][i]
+                                aj1 = k
+                                aj2 = l
+                                aj3 = m
+                dist_out = abs(avgcol[ai1][ai2][ai3][0] - avgcol[aj1][aj2][aj3][0])
+                if dist_out > 113:
+                    dist_out = 256 - dist_out
+                dist_mid = abs(avgcol[i1][i2][8][0] - avgcol[j1][j2][8][0])
+                if dist_mid > 113:
+                    dist_mid = 256 - dist_mid
+                ratio = dist_out / dist_mid
+                prob = 1 / (1+mt.e**(-(const*ratio)))
+                print(prob)
+                p *= prob
 
 print(p)
 
