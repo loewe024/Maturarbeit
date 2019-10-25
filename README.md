@@ -147,3 +147,7 @@ allgemeine Analyse von HSV:
 * logistische Funktion für die Wahrscheinlichkeit verwendet
 * Erkenntnis aus Bildern: wenn Bild reflektiert, gibt es Verfälschungen, die genug gross sind, um rot und orange zu verwechseln
 
+#### 25.10.2019
+* aussortierung für schwarze Felder gemacht (falls Würfel schwarze Felder enthält)
+* Weisse Felder aus Wahrscheinlichkeitsrechnung entfernt
+* Abbruchbedingung eingeführt, falls nicht null oder neun Felder weiss oder schwarz sind
