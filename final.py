@@ -6,7 +6,7 @@ import sys
 # prepare images
 cube1 = cv2.imread("Wuerfel_normal_Test_1_1_1.jpg")
 cube2 = cv2.imread("Wuerfel_normal_Test_1_1_2.jpg")
-pics_list = [cube1, cube2]
+pics = [cube1, cube2]
 
 # define stuff
 
@@ -61,6 +61,11 @@ distances = [[[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0,
              [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]]
 
+# probability
+p = 1
+knee = 0.25  # ratio at which probability is 99%
+const = np.log(100) / knee
+
 # find average color of tiles
 for i in range(2):
     for j in range(3):
@@ -69,10 +74,8 @@ for i in range(2):
                 col = 0
                 for m in range(20):
                     for n in range(20):
-                        col += \
-                            pics_list[i][coordinates[3 * i + j][k][0] - 10 + m][coordinates[3 * i + j][k][1] - 10 + n][
-                                l]
-                avgcol[3 * i + j][k][l] = col / 400
+                        col += pics[i][coordinates[3 * i + j][k][0] - 10 + m][coordinates[3 * i + j][k][1] - 10 + n][l]
+                avgcol[3 * i + j][k][l] = int(col / 400)
 
 # convert to HSV
 for i in range(6):
@@ -157,7 +160,7 @@ for i in range(2):
                     if dist < col:
                         col = dist
                         tilecol[i][j] = colors[k]
-            for l in range(6):
+            for k in range(6):
                 if tilecol[i][j] == colors[k]:
                     tilenum[k] += 1
 
@@ -184,9 +187,6 @@ for i in range(6):
         tilenum[col] += 1
 
 # probability
-p = 1
-knee = 0.25  # ratio at which probability is 99%
-const = np.log(100) / knee
 for i in range(6):
     if colors[i] != "ba" and colors[i] != "w":
         for j in range(i):
@@ -220,6 +220,6 @@ for i in range(6):
                 p *= prob
 
 print(tilecol)
-cv2.imshow('image', pics_list[0])
-cv2.imshow('imaggre', pics_list[1])
+cv2.imshow('image', pics[0])
+cv2.imshow('imaggre', pics[1])
 cv2.waitKey(0)
