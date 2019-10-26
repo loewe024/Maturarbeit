@@ -151,3 +151,7 @@ allgemeine Analyse von HSV:
 * aussortierung für schwarze Felder gemacht (falls Würfel schwarze Felder enthält)
 * Weisse Felder aus Wahrscheinlichkeitsrechnung entfernt
 * Abbruchbedingung eingeführt, falls nicht null oder neun Felder weiss oder schwarz sind
+
+#### 26.10.2019
+* neuse Dokument für finalen code gemacht
+* alled darin aufgeräumt/übersichtlicher gemacht
