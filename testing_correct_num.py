@@ -4,11 +4,8 @@ import math as mt
 import sys
 
 # prepare images
-from pip._internal.commands.list import tabulate
-
 cube1 = cv2.imread("Wuerfel_Bilder_final/Bild_10_1.jpg")
 cube2 = cv2.imread("Wuerfel_Bilder_final/Bild_10_2.jpg")
-
 pics = [cube1, cube2]
 
 # define stuff
@@ -32,7 +29,6 @@ tilecol = [["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "
            ["o", "o", "o", "o", "o", "o", "o", "o", "o"],
            ["o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o"],
            ["o", "o", "o", "o", "o", "o", "o", "o", "o"]]
-
 correct_1 = [["w", "g", "r", "r", "w", "y", "r", "g", "b"], ["b", "o", "o", "g", "g", "b", "y", "y", "o"],
              ["o", "r", "y", "o", "w", "w", "y", "b", "w"],
              ["o", "g", "o", "w", "b", "b", "g", "o", "g"], ["g", "w", "r", "y", "b", "r", "r", "b", "r"],
@@ -73,6 +69,9 @@ correct_10 = [["o", "o", "g", "y", "g", "y", "r", "b", "o"], ["w", "b", "o", "b"
               ["b", "r", "b", "y", "y", "r", "y", "y", "w"],
               ["g", "w", "g", "w", "b", "g", "b", "r", "r"], ["y", "w", "r", "o", "w", "g", "w", "g", "b"],
               ["o", "o", "o", "r", "r", "o", "r", "g", "w"]]
+cv2.imshow('image', pics[0])
+cv2.imshow('imaggre', pics[1])
+cv2.waitKey(0)
 # lose white
 white_question = 0
 whitemid = 256
@@ -109,86 +108,84 @@ p = 1
 knee = 0.25  # ratio at which probability is 99%
 const = np.log(100) / knee
 
-
-hsg = 3
-
 # find average color of tiles
 for i in range(2):
     for j in range(3):
         for k in range(9):
             for l in range(3):
                 col = 0
-                #cv2.rectangle(pics[i], (coordinates[3 * i + j][k][1]-10, coordinates[3 * i + j][k][0]-10), (coordinates[3 * i + j][k][1]+9, coordinates[3 * i + j][k][0]+9), (0,0,0), -1)
                 for m in range(20):
                     for n in range(20):
                         col += pics[i][coordinates[3 * i + j][k][0] - 10 + m][coordinates[3 * i + j][k][1] - 10 + n][l]
                 avgcol[3 * i + j][k][l] = int(col / 400)
+
 # convert to HSV
 for i in range(6):
     for j in range(9):
         BGR = np.uint8([[[avgcol[i][j][0], avgcol[i][j][1], avgcol[i][j][2]]]])
         hsv = cv2.cvtColor(BGR, cv2.COLOR_BGR2HSV)
-        # avgcol[i][j][0] = hsv[0][0][0] * 255 / 179
-        # avgcol[i][j][1] = hsv[0][0][1]
-        # avgcol[i][j][2] = hsv[0][0][2]
-        if avgcol[i][j][1] < 50:
+        avgcol[i][j][0] = hsv[0][0][0] * 255 / 179
+        avgcol[i][j][1] = hsv[0][0][1]
+        avgcol[i][j][2] = hsv[0][0][2]
+        if avgcol[i][j][1] < 56:
             white_question += 1
-        if avgcol[i][j][2] < 10:
+            print(avgcol[i][j][1])
+        if avgcol[i][j][2] < 0:
             black_question += 1
-cv2.waitKey(0)
+
 # lose black
-# if black_question == 9:
-#     for i in range(6):
-#         if avgcol[i][8][2] < blackmid:
-#             blackmid = avgcol[i][8][2]
-#             blackmidvar = i
-#         for j in range(8):
-#             biggestsat = 0
-#             biggestsatpos = 100
-#             for k in range(8):
-#                 if avgcol[i][j][2] < blackout[k] and blackout[k] > biggestsat:
-#                     biggestsat = blackout[k]
-#                     biggestsatpos = k
-#             if biggestsatpos < 100:
-#                 blackout[biggestsatpos] = avgcol[i][j][2]
-#                 blackoutvar1[biggestsatpos] = i
-#                 blackoutvar2[biggestsatpos] = j
-#     tilecol[blackmidvar][8] = "ba"
-#     avgcol[blackmidvar][8][1] = 255
-#     colors[blackmidvar] = "ba"
-#     tilenum[blackmidvar] = 9
-#     for i in range(8):
-#         tilecol[blackoutvar1[i]][blackoutvar2[i]] = "ba"
-#         if avgcol[blackoutvar1[i]][blackoutvar2[i]][1] < 50:
-#             avgcol[blackoutvar1[i]][blackoutvar2[i]][1] = 255
-#             white_question -= 1
-# elif black_question != 0:
-#     sys.exit("ERROR!")
+if black_question == 9:
+    for i in range(6):
+        if avgcol[i][8][2] < blackmid:
+            blackmid = avgcol[i][8][2]
+            blackmidvar = i
+        for j in range(8):
+            biggestsat = 0
+            biggestsatpos = 100
+            for k in range(8):
+                if avgcol[i][j][2] < blackout[k] and blackout[k] > biggestsat:
+                    biggestsat = blackout[k]
+                    biggestsatpos = k
+            if biggestsatpos < 100:
+                blackout[biggestsatpos] = avgcol[i][j][2]
+                blackoutvar1[biggestsatpos] = i
+                blackoutvar2[biggestsatpos] = j
+    tilecol[blackmidvar][8] = "ba"
+    avgcol[blackmidvar][8][1] = 255
+    colors[blackmidvar] = "ba"
+    tilenum[blackmidvar] = 9
+    for i in range(8):
+        tilecol[blackoutvar1[i]][blackoutvar2[i]] = "ba"
+        if avgcol[blackoutvar1[i]][blackoutvar2[i]][1] < 50:
+            avgcol[blackoutvar1[i]][blackoutvar2[i]][1] = 255
+            white_question -= 1
+elif black_question != 0:
+    sys.exit("ERROR!")
 
 # lose white
-# if white_question == 9:
-#     for i in range(6):
-#         if avgcol[i][8][1] < whitemid:
-#             whitemid = avgcol[i][8][1]
-#             whitemidvar = i
-#         for j in range(8):
-#             biggestsat = 0
-#             biggestsatpos = 100
-#             for k in range(8):
-#                 if avgcol[i][j][1] < whiteout[k] and whiteout[k] > biggestsat:
-#                     biggestsat = whiteout[k]
-#                     biggestsatpos = k
-#             if biggestsatpos < 100:
-#                 whiteout[biggestsatpos] = avgcol[i][j][1]
-#                 whiteoutvar1[biggestsatpos] = i
-#                 whiteoutvar2[biggestsatpos] = j
-#     tilecol[whitemidvar][8] = "w"
-#     tilenum[whitemidvar] = 9
-#     colors[whitemidvar] = "w"
-#     for i in range(8):
-#         tilecol[whiteoutvar1[i]][whiteoutvar2[i]] = "w"
-# elif white_question != 0:
-#     sys.exit("ERROR")
+if 5 == 5:
+    for i in range(6):
+        if avgcol[i][8][1] < whitemid:
+            whitemid = avgcol[i][8][1]
+            whitemidvar = i
+        for j in range(8):
+            biggestsat = 0
+            biggestsatpos = 100
+            for k in range(8):
+                if avgcol[i][j][1] < whiteout[k] and whiteout[k] > biggestsat:
+                    biggestsat = whiteout[k]
+                    biggestsatpos = k
+            if biggestsatpos < 100:
+                whiteout[biggestsatpos] = avgcol[i][j][1]
+                whiteoutvar1[biggestsatpos] = i
+                whiteoutvar2[biggestsatpos] = j
+    tilecol[whitemidvar][8] = "w"
+    tilenum[whitemidvar] = 9
+    colors[whitemidvar] = "w"
+    for i in range(8):
+        tilecol[whiteoutvar1[i]][whiteoutvar2[i]] = "w"
+elif white_question != 0:
+    sys.exit("ERROR")
 
 # evaluate color of each tile
 for i in range(6):
@@ -198,16 +195,11 @@ for i in range(6):
             for k in range(6):
                 if tilecol[k][8] != "w" and tilecol[k][8] != "ba":
                     dist = 0
-                    # if abs(avgcol[i][j][0] - avgcol[k][8][0]) > 113:
-                    #     dist += (256 - abs(avgcol[i][j][0] - avgcol[k][8][0])) ** 2
-                    # else:
-                    #     dist += (abs(avgcol[i][j][0] - avgcol[k][8][0])) ** 2
-                    # distances[i][j][k] = dist
-
-                    for l in range(0, hsg):
-                        dist += (avgcol[i][j][l]-avgcol[k][8][l]) ** 2
-                    distances[i][j][k] = mt.sqrt(dist)
-
+                    if abs(avgcol[i][j][0] - avgcol[k][8][0]) > 113:
+                        dist += 256 - abs(avgcol[i][j][0] - avgcol[k][8][0])
+                    else:
+                        dist += abs(avgcol[i][j][0] - avgcol[k][8][0])
+                    distances[i][j][k] = dist
                     if dist < col:
                         col = dist
                         tilecol[i][j] = colors[k]
@@ -216,6 +208,40 @@ for i in range(6):
                     tilenum[k] += 1
 
 # correct number of each color
+
+# method 1: furthest from own middle
+# for i in range(6):
+#     while tilenum[i] > 9:
+#         big_dist = 0
+#         small_dist = 99999999
+#         a1 = 0
+#         a2 = 0
+#         for j in range(6):
+#             for k in range(9):
+#                 if tilecol[j][k] == colors[i]:
+#                     if big_dist < abs(avgcol[j][k][0] - avgcol[i][8][0]) and abs(avgcol[j][k][0] - avgcol[i][8][0]) <= 113:
+#                         big_dist = abs(avgcol[j][k][0] - avgcol[i][8][0])
+#                         a1 = j
+#                         a2 = k
+#                     elif big_dist < (256 - abs(avgcol[j][k][0] - avgcol[i][8][0])) and abs(avgcol[j][k][0] - avgcol[i][8][0]) > 113:
+#                         big_dist = 256 - abs(avgcol[j][k][0] - avgcol[i][8][0])
+#                         a1 = j
+#                         a2 = k
+#         for j in range(6):
+#             if tilenum[j] < 9:
+#                 if abs(avgcol[a1][a2][0] - avgcol[j][8][0]) > 113 and small_dist > (256 - abs(avgcol[a1][a2][0] - avgcol[j][8][0])):
+#                     small_dist = 256 - abs(avgcol[a1][a2][0] - avgcol[j][8][0])
+#                     b = j
+#                 elif small_dist >abs(avgcol[a1][a2][0] - avgcol[j][8][0]) and abs(avgcol[a1][a2][0] - avgcol[j][8][0]) <= 113:
+#                     small_dist =abs(avgcol[a1][a2][0] - avgcol[j][8][0])
+#                     b = j
+#         tilecol[a1][a2] = colors[b]
+#         tilenum[b] += 1
+#         tilenum[i] -= 1
+
+
+
+# method 2: closest to another color
 for i in range(6):
     while tilenum[i] > 9:
         a1 = 0
@@ -266,9 +292,10 @@ for i in range(6):
                 dist_mid = abs(avgcol[i][8][0] - avgcol[j][8][0])
                 if dist_mid > 113:
                     dist_mid = 256 - dist_mid
-                #ratio = dist_out / dist_mid
-                #prob = 1 / (1 + mt.e ** (-(const * ratio)))
-                #p *= prob
+                ratio = dist_out / dist_mid
+                prob = 1 / (1 + mt.e ** (-(const * ratio)))
+                p *= prob
+
 error = [0, 0, 0, 0, 0, 0]
 right = [0, 0, 0, 0, 0, 0]
 reihenfolge = ["r", "o", "w", "y", "g", "b"]
@@ -284,6 +311,4 @@ for i in range(6):
 print(right)
 print(right[0],"\t",right[1],"\t",right[2],"\t",right[3],"\t",right[4],"\t",right[5],"\t")
 print("\t".join(map(str,right)))
-cv2.imshow('image', pics[0])
-cv2.imshow('imaggre', pics[1])
-cv2.waitKey(0)
+
