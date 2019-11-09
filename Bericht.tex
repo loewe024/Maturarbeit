@@ -1,5 +1,7 @@
-\documentclass[a4paper, 11pt]{article}
+\documentclass[a4paper, 12pt]{article}
+\usepackage{listings}
 \begin{document}
+\lstset{ numbers=left, basicstyle=\footnotesize, breaklines, tabsize=2, literate={\ \ }{{\ }}1}
 \tableofcontents
 \section{Einleitung}
 \subsection{was wird gemacht(gehört nicht ins Inhaltsverzeichnis)}
@@ -7,8 +9,25 @@
 \subsection{Erklärung Farbräume}
 \section{Code}
 \subsection{Farbräume}
+Zuallererst musste festgelegt werden, wie die Farben der Steine aus dem Bild ausgelesen werden. Dafür muss man zuerst verstehen, wie Farben auf einem Bild überhaupt dargestellt werden. Dies geschieht auf einem Computer mithilfe eines Farbraumes. Ein Farbraum ist eine fest definierte Anzahl an Farben, die oft mithilfe von drei Variablen beschrieben werden. Eine Bilddatei enthält somit nur Farben, die durch eine Kombination der drei Variablen erstellt werden kann.(QUELLENANGABE FARBRAUM) Diese Variablenwerte können dann ohne Probleme ausgelesen und miteinander verglichen werden. Zwei der gängigsten Farbräume, die hier miteinander verglichen werden, sind der RGB- und der HSV-Farbraum. 
 \subsubsection{RGB}
+RGB ist der Standard-Farbraum, für die digitale Bildwiedergabe. Er setzt sich aus drei Werten für Rot, Grün, und Blau zusammen. Die Werte gehen jeweils von 0 bis 255, wobei die Farbe bei 0 nicht vorhanden ist, und bei 255 die Farbe mit voller Intensität leuchtet. (0, 0, 0) ist somit schwarz und (255, 255, 255) ist weiss. Der gesamte Farbraum lässt sich als Würfel in einem Koordinatensystem darstellen, wobei die Achsen jeweils die Intensität einer Farbe beschreiben. (BILD EINFÜGEN) Der RGB-Farbraum ist ein additiver Farbraum, was bedeutet, dass bei nichts angefangen wird, und je höher die Werte werden, desto mehr Farbe vorhanden ist. Deshalb wird RGB auch bei vielen Arten von Beleuchtung verwendet, wie Fernseher und Computerbildschirme, die ihre Pixel mit roten, grünen und blauen LEDs beleuchten. Auch der Mensch erkennt Farben auf diese Weise, da im Auge Rezeptoren vorhanden sind, die empfindlich auf die Wellenlängen von Rot, Grün und Blau sind.
 \subsubsection{HSV}
+Der HSV-Farbraum setzt sich aus den Werten "Hue", "Saturation" und "Value" zusammen. Hue ist ein Wert für den Farbton, und geht standardmässig von 0 bis 179. Ausserdem ist der Wertebereich von Hue kreisförmig, was heisst, dass 0 und 179 nebeneinander sind und es somit kein Anfang oder Ende gibt. "Saturation" beschreibt die Sättigung und Intensität der Farbe und geht von 0 bis 255, wobei 0 keine Sättigung und somit Weiss bedeutet und bei 255 die Farbe vollends vorhanden ist. "Value" ist ein Mass für die Helligkeit und reicht ebenfalls von 0 bis 255. Wenn der Value bei null ist, dann spielt es keine Rolle was der Farbton ist, und die Farbe wird schwarz. Je höher der Value dann geht, desto heller wird die Farbe. Der HSV-Farbraum wird häufig in Form eines Zylinders visualisiert.(BILD) 
+\subsubsection{Anwendung im Code}
+\lstinputlisting[language=Python, linerange={107-113}]{final.py}
+Zuerst wurden für jedes Feld auf dem Würfel die RGB-Werte von 400 Pixeln ausgelesen, danach die Durchschnitte davon genommen und in einer Liste gespeichert. Anschliessend können die RGB-Werte noch in den HSV-Farbraum umgerechnet werden. 
+\lstinputlisting[language=Python, linerange={197-198,200-200,207-212}]{testing.py}
+Um eine Seite nun einer Mitte zuzuordnen, werden die Abstände der eigenen Farbwerte zu den Farbwerten einer Mitte berechnet und die Quadrate davon addiert. Dies wird mit allen Mitten gemacht und schlussendlich wird die Seite derjenigen Mitte zugeordnet, bei der diese addierten Abstände am kleinsten waren.
+\subsubsection{Vergleich}
+Jetzt, wo die Farbräume und Methodik der Zuordnung klar sind, stellt sich die Frage, was die besten Ergebnisse liefert. Hierfür wurden fünf Ideen ausprobiert:
+\begin{enumerate}
+  \item Die RGB-Werte verwenden
+  \item Die HSV-Werte verwenden
+  \item Nur Hue und Saturation verwenden
+  \item Nur Hue und Value verwenden
+  \item Nur Hue verwenden
+\end{enumerate}
 \subsection{Saturation/Value weg}
 \subsubsection{Problem}
 \subsubsection{Lösung}

@@ -204,10 +204,9 @@ for i in range(6):
                     #     dist += (abs(avgcol[i][j][0] - avgcol[k][8][0])) ** 2
                     # distances[i][j][k] = dist
 
-                    for l in range(0, hsg):
+                    for l in range(3):
                         dist += (avgcol[i][j][l]-avgcol[k][8][l]) ** 2
                     distances[i][j][k] = mt.sqrt(dist)
-
                     if dist < col:
                         col = dist
                         tilecol[i][j] = colors[k]
