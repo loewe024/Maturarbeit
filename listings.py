@@ -61,3 +61,28 @@ for color in range(6):
         tilecol[sidetpos][tilepos] = colors[colpos]
         tilenum[colpos] += 1
         tilenum[color] -= 1
+
+
+
+# method 2: closest to another color
+for color in range(6):
+    while tilenum[color] > 9:
+        sidepos = 0
+        tilepos = 0
+        colpos = 0
+        counter = 0
+        small_dist = 99999999
+        breaker = 0
+        for side in range(6):
+            for tile in range(8):
+                if tilecol[side][tile] == colors[color]:
+                    for othercolor in range(6):
+                        if tilenum[othercolor] < 9 and distances[side][tile][
+                            othercolor] < small_dist:
+                            small_dist = distances[side][tile][othercolor]
+                            sidepos = side
+                            tilepos = tile
+                            colpos = othercolor
+        tilecol[sidepos][tilepos] = colors[colpos]
+        tilenum[color] -= 1
+        tilenum[colpos] += 1
