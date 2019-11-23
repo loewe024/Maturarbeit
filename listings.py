@@ -11,7 +11,8 @@ col = 200000
 for middle in range(6):
     dist = 0
     for rgb in range(3):
-        dist += (avgcol[side][tile][rgb]-avgcol[middle][8][rgb]) ** 2
+        dist += (avgcol[side][tile][rgb] -
+                 avgcol[middle][8][rgb]) ** 2
     distances[side][tile][middle] = mt.sqrt(dist)
     if dist < col:
         col = dist

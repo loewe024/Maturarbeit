@@ -28,9 +28,9 @@ Der HSV-Farbraum setzt sich aus den Werten "Hue", "Saturation" und "Value" zusam
 
 \includegraphics[scale=0.07]{HSV_Zylinder} 
 \subsubsection{Anwendung im Code}
-\lstinputlisting[language=Python, linerange={107-113}]{final.py}
+\lstinputlisting[language=Python, linerange={2-7}]{listings.py}
 Zuerst wurden für jedes Feld auf dem Würfel die RGB-Werte von 400 Pixeln ausgelesen, danach die Durchschnitte davon genommen und in einer Liste gespeichert. Anschliessend können die RGB-Werte noch in den HSV-Farbraum umgerechnet werden. 
-\lstinputlisting[language=Python, linerange={197-198,200-200,207-212}]{testing.py}
+\lstinputlisting[language=Python, linerange={10-19}]{listings.py}
 Um eine Seite nun einer Mitte zuzuordnen, werden die Abstände der eigenen Farbwerte zu den Farbwerten einer Mitte berechnet und die Quadrate davon addiert. Dies wird mit allen Mitten gemacht und schlussendlich wird die Seite derjenigen Mitte zugeordnet, bei der diese addierten Abstände am kleinsten waren.
 \subsubsection{Vergleich}
 Jetzt, wo die Farbräume und Methodik der Zuordnung klar sind, stellt sich die Frage, was die besten Ergebnisse liefert. Hierfür wurden fünf Ideen ausprobiert:
@@ -55,9 +55,9 @@ Wenn man die Fehler nun nach Farben aufteilt, sieht man, dass die Methode 5 bei 
 Wie im letzten Abschnitt erwähnt, ergibt sich, wenn nur Hue zur Unterscheidung der Farben verwendet wird, das Problem, dass wenn die Saturation einer Farbe sehr tief ist, die Hue-Werte fast nicht erkannt werden können. Das gleiche gilt auch für zu tiefe Value-Werte. Diese Felder müssen also auf eine andere Weise bestimmt werden. 
 \subsubsection{Lösung}
 Dieses Problem kann behoben werden, indem die weissen und die (falls vorhandenen) schwarzen Felder schon aussortiert werden, bevor die restlichen Felder einer Mitte zugeordnet werden.
-\lstinputlisting[language=Python, linerange={124-127}]{final.py}
+\lstinputlisting[language=Python, linerange={23-26}]{listings.py}
 Zuerst werden alle Felder durchgegangen und es wird geschaut, ob sie einen festgelegten tiefen Saturation- oder Value-Wert unterschreiten. Danach wird geschaut, wie viele Felder einen tiefen Value besitzen. Falls es exakt neun sind, dann werden diese als schwarz eingestuft und beim anschliessenden zuordnen der Felder zu einer Mitte nicht mehr berücksichtigt. Wenn kein Feld einen tiefen Value hat, passiert nichts spezielles, da keine schwarzen Felder vorhanden sind. Falls aber irgend eine andere Anzahl Felder einen tiefen Value besitzen, stoppt das Programm, da die Anzahl schwarzer Felder nicht aufgeht, und Felder mit einem tiefen Value nicht unterscheidbar sind und der Würfel somit nicht verlässlich erkannt werden kann.
-\lstinputlisting[language=Python, linerange={160-183}]{final.py}
+\lstinputlisting[language=Python, linerange={30-39}]{listings.py}
  Nachdem die schwarzen Felder aussortiert worden sind, geschieht das gleiche mit den weissen Feldern, die eine tiefe Saturation haben. 
  
 \includegraphics[scale=0.4]{Fehler_SV_Filter} 
@@ -67,10 +67,10 @@ Durch das Anwenden dieser Filter, sinkt die durchschnittliche Fehlerzahl von 16.
 Da bei einem Rubiks Cube bekannt ist, dass jede Farbe exakt neun mal vorkommt, weiss man, dass jeder Mitte exakt acht Felder zugeordnet werden müssen. Ist dies nach der Zuordnung nicht der Fall, lässt sich daraus schliessen, dass der Würfel noch nicht korrekt erkannt ist. In so einem Fall kann man nun noch einen Algorithmus einfügen, der dafür sorgt, dass jede Farbe exakt neun mal vorkommt. Dafür wurden zwei verschiedene Methoden ausprobiert.
 \subsubsection{nah an Mitte}
 Die erste Methode ist die, die in den bisherigen Vergleichen auch schon angewandt wurde. Sie funktioniert so, dass wenn einer Mitte zu viele Steine zugeordnet werden, wird geschaut welcher dieser Steine am nächsten bei einer Mitte ist, der noch zu wenige Steine zugeordnet worden sind. Dieser Vorgang wird so lange wiederholt, bis der Mitte nur noch acht Seitensteine zugeordnet sind. Dann geht das Programm weiter zur nächsten Mitte, der zu viele Steine zugeordnet sind, bis allen Mitten exakt acht Seitensteine zugeordnet sind. 
-\lstinputlisting[language=Python, linerange={289-309}]{testing_correct_num.py}
+\lstinputlisting[language=Python, linerange={44-64}]{listings.py}
 \subsubsection{weit weg von Mitte}
 Die zweite Methode funktioniert folgendermassen. Es werden ebenfalls die Mitten durchgegangen, denen zu viele Flächen zugeordnet wurden. Aber statt iwe bei Methode eins zu schauen, welche Fläche am nächsten bei einer anderen Mitte ist, wird geschaut, welche Fläche am weitesten entfernt von der eigenen Mitte ist. Diese wird dann derjenigen Mitte zugeordnet, die noch zu wenig Flächen hat und der sie am nächsten ist.
-\lstinputlisting[language=Python, linerange={266-286}]{testing_correct_num.py}
+\lstinputlisting[language=Python, linerange={69-89}]{listings.py}
 \subsubsection{Vergleich}
 
 \includegraphics[scale=0.4]{Felder_korrekt_verteilt}
@@ -80,6 +80,5 @@ Wie im Diagramm zu sehen liefert die Methode 2 die besseren Resultate. Der Unter
 \subsubsection{Idee}
 \subsubsection{logistische Funktion}
 \section{Schluss}
-Um hier noch einmal die Resultate zusammenzufassen: Es war immer ziemlich deutlich, welche Ideen besser waren, wie die anderen. Die besten Ergebnisse kamen heraus, wenn zuerst die weissen und schwarzen Felder herausgefiltert werden, danach die Felder anhand des Hue-Wertes zugeordnet werden, und dann schliesslich bei denen Farben, denen zu viele Felder zugeordnet wurden, die Felder, die am weitesten von der Mitte entfernt sind, noch umgeordenet werden. Aber auch dann gibt es im Schnitt noch 8.5 Fehler. Dies zeigt, dass es sehr schwierig ist, ein verlässliches Programm zu erstellen, welches den Rubiks Cube perfekt erkennt. Ein grosser Faktor, der dabei eine wichtige Rolle spielt, sind die Lichtverhältnisse. wenn die verschiedenen Seiten auch nur schon einen kleinen Unterschied in der Beleuchtung haben, kann es zu Fehlern kommen. Es wird versucht, diese zu minimieren, indem nur Hue als Unterscheidungsmerkmal verwendet wird, aber es entstehen trotzdem noch Fehler. Es gibt aber noch einige Ideen, die die Anzahl Fehler möglicherweise noch reduzieren könnten. Zum Beispiel könnte noch geschaut werden, ob das erkannte Muster überhaupt entstehen kann, wenn ein Rubiks Cube vermischt wird. Es ist beispielsweise nicht möglich, dass auf einem Eckstein eine Farbe mehrmals vorkommt. Es kann auch noch weiter erforscht werden, wie die Veränderung der Lichtverhältnisse die erkannten Farben verändert. Es wäre auch möglich einen komplett anderen Ansatz zu versuchen, indem man ein neuronales Netz verwendet. Hier käme einfach das Problem hinzu, dass das Trainieren eines neuronalen Netzes, möglicherweise hunderte oder tausende von Bildern benötigt, was sehr aufwendig wäre.
-\lstinputlisting[language=Python, linerange={68-88}]{listings.py} 
+Um hier noch einmal die Resultate zusammenzufassen: Es war immer ziemlich deutlich, welche Ideen besser waren, wie die anderen. Die besten Ergebnisse kamen heraus, wenn zuerst die weissen und schwarzen Felder herausgefiltert werden, danach die Felder anhand des Hue-Wertes zugeordnet werden, und dann schliesslich bei denen Farben, denen zu viele Felder zugeordnet wurden, die Felder, die am weitesten von der Mitte entfernt sind, noch umgeordenet werden. Aber auch dann gibt es im Schnitt noch 8.5 Fehler. Dies zeigt, dass es sehr schwierig ist, ein verlässliches Programm zu erstellen, welches den Rubiks Cube perfekt erkennt. Ein grosser Faktor, der dabei eine wichtige Rolle spielt, sind die Lichtverhältnisse. wenn die verschiedenen Seiten auch nur schon einen kleinen Unterschied in der Beleuchtung haben, kann es zu Fehlern kommen. Es wird versucht, diese zu minimieren, indem nur Hue als Unterscheidungsmerkmal verwendet wird, aber es entstehen trotzdem noch Fehler. Es gibt aber noch einige Ideen, die die Anzahl Fehler möglicherweise noch reduzieren könnten. Zum Beispiel könnte noch geschaut werden, ob das erkannte Muster überhaupt entstehen kann, wenn ein Rubiks Cube vermischt wird. Es ist beispielsweise nicht möglich, dass auf einem Eckstein eine Farbe mehrmals vorkommt. Es kann auch noch weiter erforscht werden, wie die Veränderung der Lichtverhältnisse die erkannten Farben verändert. Es wäre auch möglich einen komplett anderen Ansatz zu versuchen, indem man ein neuronales Netz verwendet. Hier käme einfach das Problem hinzu, dass das Trainieren eines neuronalen Netzes, möglicherweise hunderte oder tausende von Bildern benötigt, was sehr aufwendig wäre. 
 \end{document}
