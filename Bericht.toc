@@ -1,19 +1,20 @@
-\contentsline {section}{\numberline {1}Einleitung}{1}% 
-\contentsline {subsection}{\numberline {1.1}grundliegende Idee}{2}% 
-\contentsline {section}{\numberline {2}Code}{2}% 
-\contentsline {subsection}{\numberline {2.1}Farbräume}{2}% 
-\contentsline {subsubsection}{\numberline {2.1.1}RGB}{2}% 
-\contentsline {subsubsection}{\numberline {2.1.2}HSV}{3}% 
+\contentsline {section}{\numberline {1}Einleitung}{2}% 
+\contentsline {subsection}{\numberline {1.1}Rubiks Cube}{2}% 
+\contentsline {subsection}{\numberline {1.2}grundliegende Idee}{2}% 
+\contentsline {section}{\numberline {2}Code}{3}% 
+\contentsline {subsection}{\numberline {2.1}Farbräume}{3}% 
+\contentsline {subsubsection}{\numberline {2.1.1}RGB}{3}% 
+\contentsline {subsubsection}{\numberline {2.1.2}HSV}{4}% 
 \contentsline {subsubsection}{\numberline {2.1.3}Anwendung im Code}{4}% 
-\contentsline {subsubsection}{\numberline {2.1.4}Vergleich}{4}% 
-\contentsline {subsection}{\numberline {2.2}Saturation/Value weg}{6}% 
-\contentsline {subsubsection}{\numberline {2.2.1}Problem}{6}% 
-\contentsline {subsubsection}{\numberline {2.2.2}Lösung}{6}% 
-\contentsline {subsection}{\numberline {2.3}richtige Anzahl Felder pro Farbe}{8}% 
-\contentsline {subsubsection}{\numberline {2.3.1}nah an Mitte}{8}% 
-\contentsline {subsubsection}{\numberline {2.3.2}weit weg von Mitte}{9}% 
-\contentsline {subsubsection}{\numberline {2.3.3}Vergleich}{10}% 
-\contentsline {subsection}{\numberline {2.4}Wahrscheinlichkeit}{10}% 
-\contentsline {subsubsection}{\numberline {2.4.1}Idee}{10}% 
-\contentsline {subsubsection}{\numberline {2.4.2}logistische Funktion}{10}% 
-\contentsline {section}{\numberline {3}Schluss}{10}% 
+\contentsline {subsubsection}{\numberline {2.1.4}Vergleich}{5}% 
+\contentsline {subsection}{\numberline {2.2}Saturation/Value weg}{7}% 
+\contentsline {subsubsection}{\numberline {2.2.1}Problem}{7}% 
+\contentsline {subsubsection}{\numberline {2.2.2}Lösung}{7}% 
+\contentsline {subsection}{\numberline {2.3}richtige Anzahl Felder pro Farbe}{9}% 
+\contentsline {subsubsection}{\numberline {2.3.1}nah an Mitte}{9}% 
+\contentsline {subsubsection}{\numberline {2.3.2}weit weg von Mitte}{10}% 
+\contentsline {subsubsection}{\numberline {2.3.3}Vergleich}{11}% 
+\contentsline {subsection}{\numberline {2.4}Wahrscheinlichkeit}{11}% 
+\contentsline {subsubsection}{\numberline {2.4.1}Idee}{11}% 
+\contentsline {subsubsection}{\numberline {2.4.2}logistische Funktion}{11}% 
+\contentsline {section}{\numberline {3}Schluss}{11}% 
