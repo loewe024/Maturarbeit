@@ -27,30 +27,37 @@ if avgcol[side][tile][2] < 0:
 
 
 if black_question == 9:
-    for i in range(6):
-        if avgcol[i][8][2] < blackmid:
-            blackmid = avgcol[i][8][2]
-            blackmidvar = i
-        for j in range(8):
-            biggestsat = 0
-            biggestsatpos = 100
-            for k in range(8):
-                if avgcol[i][j][2] < blackout[k] and blackout[
-                    k] > biggestsat:
-                    biggestsat = blackout[k]
-                    biggestsatpos = k
-            if biggestsatpos < 100:
-                blackout[biggestsatpos] = avgcol[i][j][2]
-                blackoutvar1[biggestsatpos] = i
-                blackoutvar2[biggestsatpos] = j
-    tilecol[blackmidvar][8] = "ba"
-    avgcol[blackmidvar][8][1] = 255
-    colors[blackmidvar] = "ba"
-    tilenum[blackmidvar] = 9
-    for i in range(8):
-        tilecol[blackoutvar1[i]][blackoutvar2[i]] = "ba"
-        if avgcol[blackoutvar1[i]][blackoutvar2[i]][1] < 50:
-            avgcol[blackoutvar1[i]][blackoutvar2[i]][1] = 255
-            white_question -= 1
+    for side in range(6):
+        if avgcol[side][8][2] < lowvaluemid:
+            lowvaluemid = avgcol[side][8][2]
+            blackmidposition = side
+    tilecol[blackmidposition][8] = "black"
+    colors[blackmidposition] = "black"
+    tilenum[blackmidposition] = 9
 elif black_question != 0:
     sys.exit("ERROR!")
+
+
+
+# method 1: furthest from own middle
+for color in range(6):
+    while tilenum[color] > 9:
+        big_dist = 0
+        small_dist = 99999999
+        sidetpos = 0
+        tilepos = 0
+        for side in range(6):
+            for tile in range(9):
+                if tilecol[side][tile] == colors[color]:
+                    if big_dist < distances[side][tile][color]:
+                        big_dist = distances[side][tile][color]
+                        sidetpos = side
+                        tilepos = tile
+        for othercolor in range(6):
+            if tilenum[othercolor] < 9:
+                if small_dist > distances[sidetpos][tilepos][othercolor]:
+                    small_dist = distances[sidetpos][tilepos][othercolor]
+                    colpos = othercolor
+        tilecol[sidetpos][tilepos] = colors[colpos]
+        tilenum[colpos] += 1
+        tilenum[color] -= 1
