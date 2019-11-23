@@ -53,11 +53,11 @@ for color in range(6):
                         big_dist = distances[side][tile][color]
                         sidetpos = side
                         tilepos = tile
-        for othercolor in range(6):
-            if tilenum[othercolor] < 9:
-                if small_dist > distances[sidetpos][tilepos][othercolor]:
-                    small_dist = distances[sidetpos][tilepos][othercolor]
-                    colpos = othercolor
+        for diffcol in range(6):
+            if tilenum[diffcol] < 9:
+                if small_dist > distances[sidetpos][tilepos][diffcol]:
+                    small_dist = distances[sidetpos][tilepos][diffcol]
+                    colpos = diffcol
         tilecol[sidetpos][tilepos] = colors[colpos]
         tilenum[colpos] += 1
         tilenum[color] -= 1
@@ -76,13 +76,13 @@ for color in range(6):
         for side in range(6):
             for tile in range(8):
                 if tilecol[side][tile] == colors[color]:
-                    for othercolor in range(6):
-                        if tilenum[othercolor] < 9 and distances[side][tile][
-                            othercolor] < small_dist:
-                            small_dist = distances[side][tile][othercolor]
+                    for diffcol in range(6):
+                        if tilenum[diffcol] < 9 and distances[side][tile][
+                            diffcol] < small_dist:
+                            small_dist = distances[side][tile][diffcol]
                             sidepos = side
                             tilepos = tile
-                            colpos = othercolor
+                            colpos = diffcol
         tilecol[sidepos][tilepos] = colors[colpos]
         tilenum[color] -= 1
         tilenum[colpos] += 1
