@@ -10,11 +10,8 @@
 \contentsline {subsection}{\numberline {2.2}Saturation/Value weg}{7}% 
 \contentsline {subsubsection}{\numberline {2.2.1}Problem}{7}% 
 \contentsline {subsubsection}{\numberline {2.2.2}Lösung}{7}% 
-\contentsline {subsection}{\numberline {2.3}richtige Anzahl Felder pro Farbe}{8}% 
+\contentsline {subsection}{\numberline {2.3}richtige Anzahl Felder pro Farbe}{9}% 
 \contentsline {subsubsection}{\numberline {2.3.1}nah an Mitte}{9}% 
-\contentsline {subsubsection}{\numberline {2.3.2}weit weg von Mitte}{9}% 
-\contentsline {subsubsection}{\numberline {2.3.3}Vergleich}{10}% 
-\contentsline {subsection}{\numberline {2.4}Wahrscheinlichkeit}{11}% 
-\contentsline {subsubsection}{\numberline {2.4.1}Idee}{11}% 
-\contentsline {subsubsection}{\numberline {2.4.2}logistische Funktion}{11}% 
-\contentsline {section}{\numberline {3}Schluss}{11}% 
+\contentsline {subsubsection}{\numberline {2.3.2}weit weg von Mitte}{10}% 
+\contentsline {subsubsection}{\numberline {2.3.3}Vergleich}{11}% 
+\contentsline {section}{\numberline {3}Schluss}{12}% 
