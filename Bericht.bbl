@@ -19,6 +19,39 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global}
+    \entry{RGBBild}{online}{}
+      \name{author}{1}{}{%
+        {{hash=d1c37acd120143b0508f18a37de0e0b9}{%
+           family={Broek},
+           familyi={B\bibinitperiod},
+           given={Egon\bibnamedelima L.},
+           giveni={E\bibinitperiod\bibinitdelim L\bibinitperiod},
+           prefix={van\bibnamedelima den},
+           prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod}}}%
+      }
+      \strng{namehash}{d1c37acd120143b0508f18a37de0e0b9}
+      \strng{fullhash}{d1c37acd120143b0508f18a37de0e0b9}
+      \strng{bibnamehash}{d1c37acd120143b0508f18a37de0e0b9}
+      \strng{authorbibnamehash}{d1c37acd120143b0508f18a37de0e0b9}
+      \strng{authornamehash}{d1c37acd120143b0508f18a37de0e0b9}
+      \strng{authorfullhash}{d1c37acd120143b0508f18a37de0e0b9}
+      \field{sortinit}{B}
+      \field{sortinithash}{8de16967003c7207dae369d874f1456e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Human-centered content-based image retrieval}
+      \field{urlday}{26}
+      \field{urlmonth}{11}
+      \field{urlyear}{2019}
+      \field{year}{2005}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.researchgate.net/figure/The-RGB-color-space-visualized-as-a-cube_fig3_228719004
+      \endverb
+      \verb{url}
+      \verb https://www.researchgate.net/figure/The-RGB-color-space-visualized-as-a-cube_fig3_228719004
+      \endverb
+    \endentry
     \entry{Wuerfelbild}{online}{}
       \name{author}{1}{}{%
         {{hash=39ea4644b02c4158a89fd649836260b8}{%
@@ -38,12 +71,76 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Can a Rubik’s Cube Teach You Programming?}
+      \field{urlday}{26}
+      \field{urlmonth}{11}
+      \field{urlyear}{2019}
       \field{year}{2016}
+      \field{urldateera}{ce}
       \verb{urlraw}
       \verb https://blog.ubiquity.acm.org/can-a-rubiks-cube-teach-you-programming/
       \endverb
       \verb{url}
       \verb https://blog.ubiquity.acm.org/can-a-rubiks-cube-teach-you-programming/
+      \endverb
+    \endentry
+    \entry{RGBHSV}{online}{}
+      \name{author}{1}{}{%
+        {{hash=157a8ba92bbdf7b100f717d0e688e09c}{%
+           family={Karger},
+           familyi={K\bibinitperiod},
+           given={Helmut},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{157a8ba92bbdf7b100f717d0e688e09c}
+      \strng{fullhash}{157a8ba92bbdf7b100f717d0e688e09c}
+      \strng{bibnamehash}{157a8ba92bbdf7b100f717d0e688e09c}
+      \strng{authorbibnamehash}{157a8ba92bbdf7b100f717d0e688e09c}
+      \strng{authornamehash}{157a8ba92bbdf7b100f717d0e688e09c}
+      \strng{authorfullhash}{157a8ba92bbdf7b100f717d0e688e09c}
+      \field{sortinit}{K}
+      \field{sortinithash}{d3edc18d54b9438a72c24c925bfb38f4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Raspberry Video Camera – Teil 17: Exkurs – Wie Computer Farben sehen}
+      \field{urlday}{26}
+      \field{urlmonth}{11}
+      \field{urlyear}{2019}
+      \field{year}{2017}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://blog.helmutkarger.de/raspberry-video-camera-teil-17-exkurs-wie-computer-farben-sehen/
+      \endverb
+      \verb{url}
+      \verb https://blog.helmutkarger.de/raspberry-video-camera-teil-17-exkurs-wie-computer-farben-sehen/
+      \endverb
+    \endentry
+    \entry{Farbraum}{online}{}
+      \name{author}{1}{}{%
+        {{hash=2e9413b5696d0384c61121df61cc1cbb}{%
+           family={O.V.},
+           familyi={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{2e9413b5696d0384c61121df61cc1cbb}
+      \strng{fullhash}{2e9413b5696d0384c61121df61cc1cbb}
+      \strng{bibnamehash}{2e9413b5696d0384c61121df61cc1cbb}
+      \strng{authorbibnamehash}{2e9413b5696d0384c61121df61cc1cbb}
+      \strng{authornamehash}{2e9413b5696d0384c61121df61cc1cbb}
+      \strng{authorfullhash}{2e9413b5696d0384c61121df61cc1cbb}
+      \field{sortinit}{O}
+      \field{sortinithash}{ff8d4eeb5101e3cf3809959b3592d942}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Farbraum}
+      \field{urlday}{26}
+      \field{urlmonth}{11}
+      \field{urlyear}{2019}
+      \field{year}{2013}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.itwissen.info/Farbraum-color-space.html
+      \endverb
+      \verb{url}
+      \verb https://www.itwissen.info/Farbraum-color-space.html
       \endverb
     \endentry
   \enddatalist
