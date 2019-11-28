@@ -2,16 +2,16 @@
 [0] Config.pm:307> INFO - Logfile is 'Bericht.blg'
 [24] biber-MSWIN64:315> INFO - === 
 [41] Biber.pm:375> INFO - Reading 'Bericht.bcf'
-[163] Biber.pm:905> INFO - Found 4 citekeys in bib section 0
-[180] Biber.pm:4196> INFO - Processing section 0
-[182] Utils.pm:75> INFO - Globbing data source 'Literatur.bib'
-[191] Utils.pm:91> INFO - Globbed data source 'Literatur.bib' to Literatur.bib
-[202] Biber.pm:4373> INFO - Looking for bibtex format file 'Literatur.bib' for section 0
-[205] bibtex.pm:1462> INFO - LaTeX decoding ...
-[214] bibtex.pm:1281> INFO - Found BibTeX data source 'Literatur.bib'
-[239] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[239] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[239] Biber.pm:4024> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'de-DE'
-[239] Biber.pm:4030> INFO - No sort tailoring available for locale 'de-DE'
-[248] bbl.pm:648> INFO - Writing 'Bericht.bbl' with encoding 'UTF-8'
-[250] bbl.pm:751> INFO - Output to Bericht.bbl
+[137] Biber.pm:905> INFO - Found 4 citekeys in bib section 0
+[150] Biber.pm:4196> INFO - Processing section 0
+[152] Utils.pm:75> INFO - Globbing data source 'Literatur.bib'
+[160] Utils.pm:91> INFO - Globbed data source 'Literatur.bib' to Literatur.bib
+[170] Biber.pm:4373> INFO - Looking for bibtex format file 'Literatur.bib' for section 0
+[173] bibtex.pm:1462> INFO - LaTeX decoding ...
+[179] bibtex.pm:1281> INFO - Found BibTeX data source 'Literatur.bib'
+[204] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[204] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[204] Biber.pm:4024> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'de-DE'
+[204] Biber.pm:4030> INFO - No sort tailoring available for locale 'de-DE'
+[211] bbl.pm:648> INFO - Writing 'Bericht.bbl' with encoding 'UTF-8'
+[213] bbl.pm:751> INFO - Output to Bericht.bbl

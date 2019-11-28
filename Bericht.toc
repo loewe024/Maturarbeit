@@ -3,9 +3,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1}Einleitung}{1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.1}Rubiks Cube}{1}% 
+\contentsline {subsection}{\numberline {1.1}Rubik's Cube}{1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.2}Grundlegende Idee}{1}% 
+\contentsline {subsection}{\numberline {1.2}Erste Idee}{1}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2}Umsetzung und Resultate}{3}% 
 \defcounter {refsection}{0}\relax 
@@ -33,6 +33,6 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {2.3.3}Vergleich}{12}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3}Schluss}{13}% 
+\contentsline {section}{\numberline {3}Fazit}{13}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4}Literatur}{14}% 
