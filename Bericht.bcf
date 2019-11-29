@@ -2129,15 +2129,16 @@
     <bcf:datasource type="file" datatype="bibtex">Literatur.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">Wuerfelbild</bcf:citekey>
+    <bcf:citekey order="1">Ueberwachung_Bild</bcf:citekey>
     <bcf:citekey order="2">Wuerfelbild</bcf:citekey>
-    <bcf:citekey order="3">Farbraum</bcf:citekey>
-    <bcf:citekey order="4">RGBBild</bcf:citekey>
+    <bcf:citekey order="3">Wuerfelbild</bcf:citekey>
+    <bcf:citekey order="4">Farbraum</bcf:citekey>
     <bcf:citekey order="5">RGBBild</bcf:citekey>
-    <bcf:citekey order="6">RGBHSV</bcf:citekey>
+    <bcf:citekey order="6">RGBBild</bcf:citekey>
     <bcf:citekey order="7">RGBHSV</bcf:citekey>
     <bcf:citekey order="8">RGBHSV</bcf:citekey>
     <bcf:citekey order="9">RGBHSV</bcf:citekey>
+    <bcf:citekey order="10">RGBHSV</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

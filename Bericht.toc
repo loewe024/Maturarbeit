@@ -5,7 +5,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {1.1}Rubik's Cube}{1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.2}Erste Idee}{1}% 
+\contentsline {subsection}{\numberline {1.2}Erste Idee}{2}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2}Umsetzung und Resultate}{3}% 
 \defcounter {refsection}{0}\relax 
@@ -19,15 +19,15 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {2.1.4}Vergleich}{5}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2}Saturation/Value weg}{7}% 
+\contentsline {subsection}{\numberline {2.2}Saturation/Value weg}{8}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {2.2.1}Problem}{7}% 
+\contentsline {subsubsection}{\numberline {2.2.1}Problem}{8}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {2.2.2}Lösung}{8}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.3}Richtige Anzahl Felder pro Farbe}{9}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {2.3.1}Nah an Mitte}{9}% 
+\contentsline {subsubsection}{\numberline {2.3.1}Nah an Mitte}{10}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {2.3.2}Weit weg von Mitte}{10}% 
 \defcounter {refsection}{0}\relax 

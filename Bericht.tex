@@ -8,6 +8,7 @@
 \usepackage{csquotes}
 \usepackage{abstract}
 \usepackage{graphicx}
+
 \addbibresource{Literatur.bib}
 \begin{document}
 
@@ -31,6 +32,9 @@
 % Bottom of the page
 	{\large Zürich, Dezember 2019\par}
 \end{titlepage}
+\newpage
+Quelle für Titelbild: \cite{Ueberwachung_Bild}
+\newpage
 \pagenumbering{Roman}
 
 \lstset{ numbers=left, basicstyle=\footnotesize, breaklines, tabsize=2, literate={\ \ }{{\ }}1}
@@ -40,46 +44,67 @@ Ziel dieser Maturaarbeit war, ein möglichst gutes Programm für die Farberkennu
 \end{abstract}
 \tableofcontents
 \clearpage
+\newpage\null\thispagestyle{empty}\newpage
 \pagenumbering{arabic} 
 \newpage
 \section{Einleitung}
 In dieser Maturaarbeit wurde versucht, eine Software zu programmieren, welche die Farben eines Rubik's Cubes möglichst gut erkennen soll. Dabei wurden Probleme untersucht, die im Gebiet der Farberkennung auftreten können. Es werden verschiedene Lösungsansätze miteinander verglichen und es wird erklärt, wie sie im Code angewendet wurden.
 \subsection{Rubik's Cube}
-Um die Farben eines Rubik's Cubes zu erkennen, muss erst einmal klar sein, wie er überhaupt aufgebaut ist. Ein Rubik's Cube (im Folgenden Würfel genannt) besteht aus 26 Steinen. Diese sind in einer 3x3x3-Würfelform angeordnet, in der der Mittlere Würfel fehlt. Die Steine sind so mit sechs verschiedenen Farben gefärbt, dass jede Seite des Würfels eine Farbe hat (vgl. Abbildung 1). Dabei existieren insgesamt sechs Mittelsteine, auf jeder Seite einer, die je eine einzige gefärbte Fläche (im Folgenden Mitte genannt) haben. Diese Mitten haben jeweils eine der sechs Farben. Sie ändern beim Verdrehen des Würfels ihre relative Position zueinander nicht. Neben den Mittelsteinen gibt es auch noch Seitensteine. Diese haben jeweils zwei oder drei gefärbte Flächen. So eine Fläche wird im Folgenden "`Seite"' genannt.
-\begin{figure}[H]
+Um die Farben eines Rubik's Cubes zu erkennen, muss erst einmal klar sein, wie er überhaupt aufgebaut ist. Ein Rubik's Cube (im Folgenden Würfel genannt) besteht aus 26 Steinen. Diese sind in einer 3x3x3-Würfelform angeordnet, wobei der mittlere Würfel fehlt. Die Steine sind mit sechs verschiedenen Farben so gefärbt, dass jede Seite des Würfels eine Farbe hat (vgl. Abbildung 1).
+\newline
+Dabei existieren insgesamt sechs Mittelsteine, auf jeder Würfelseite einer, die je eine einzige gefärbte Fläche haben. Diese Flächen werden von nun an "`Mitte"' genannt. Diese Mitten haben jeweils eine der sechs Farben. Sie ändern beim Verdrehen des Würfels ihre relative Position zueinander nicht.
+\newline
+Neben den Mittelsteinen gibt es auch noch Seitensteine. Diese haben jeweils zwei oder drei gefärbte Flächen. So eine Fläche wird im Folgenden "`Seite"' genannt.
+\begin{figure}[h]
 \includegraphics[scale=1.5]{Wuerfel_Billd}
 \caption{Gelöster Rubik's Cube mit einer Farbe pro Seite. \cite{Wuerfelbild}}
 \end{figure}
 \subsection{Erste Idee}
-Eine erste Idee ist die, dass der Rubik's Cube immer an einem fixen Punkt festgemacht wird, und dann von zwei gegenüberliegenden Kameras fotografiert wird (vgl. Abbildung 2). So sind die Felder des Würfels immer an der gleichen Stelle im Bild, und es braucht keine Mustererkennung, um die Felder zu finden. Um die Felder dann einer Farbe zuzuordnen, werden keine schon vorher fix definierten Farben verwendet, sondern es werden die Farbwerte der Mittelsteine herausgelesen, und die restlichen Felder werden dann diesen zugeordnet. So wird vermieden, dass man bei jedem neuen Würfel, der andere Farben besitzt, wieder mühselig die richtigen Farbwerte suchen muss, um die Definitionsbereiche zu erstellen. Wenn ausserdem die Lichtverhältnisse  mal etwas dunkler oder heller sind, wird dies dann automatisch miteinberechnet, da die Mitten dann auch dunkler sind. 
-\begin{figure}[H]
+Eine erste Idee ist, den der Rubik's Cube immer an einem fixen Punkt zu befestigen, und ihn dann von zwei gegenüberliegenden Kameras zu fotografieren (vgl. Abbildung 2). So sind die Felder des Würfels immer an der gleichen Stelle im Bild, und es braucht keine Mustererkennung, um die Felder zu finden.
+\begin{figure}[h]
 \includegraphics[scale=0.25]{Aufbau_Bild}
 \caption{Aufbau, um Rubik's Cube immer vom gleichen Winkel aus zu fotografieren.}
 \end{figure}
+\newline
+Um die Felder dann einer Farbe zuzuordnen, werden keine schon vorher fix definierten Farben verwendet, sondern es werden die Farbwerte der Mittelsteine herausgelesen, und die restlichen Felder werden dann diesen zugeordnet. So wird vermieden, dass man bei jedem neuen Würfel, der andere Farben besitzt, wieder mühselig die richtigen Farbwerte suchen muss, um die Definitionsbereiche zu erstellen. Wenn ausserdem die Lichtverhältnisse  mal etwas dunkler oder heller sind, wird dies auch automatisch miteinberechnet. 
 \newpage
 \section{Umsetzung und Resultate}
 \subsection{Farbräume}
-Zuallererst musste festgelegt werden, wie die Farben der Felder aus dem Bild ausgelesen werden. Dafür muss man zuerst verstehen, wie Farben auf einem Bild überhaupt dargestellt werden. Dies geschieht auf einem Computer mithilfe eines Farbraumes. Ein Farbraum ist eine fest definierte Anzahl an Farben, die oft mithilfe von drei Variablen beschrieben werden. Eine Bilddatei enthält somit nur Farben, die durch eine Kombination der drei Variablen erstellt werden kann. \cite{Farbraum} Diese Variablenwerte können dann ohne Probleme ausgelesen und miteinander verglichen werden. Zwei der gängigsten Farbräume, der RGB- und der HSV-Farbraum, werden hier miteinander verglichen. 
+Um die Seiten zu den Mitten zuzuordnen, muss zuallererst festgelegt werden, wie die Farben der Felder aus dem Bild ausgelesen werden. Dafür muss man verstehen, wie Farben auf einem Bild überhaupt dargestellt werden. Dies geschieht auf einem Computer mithilfe eines Farbraumes. Ein Farbraum ist eine fest definierte Anzahl an Farben, die oft mithilfe von drei Variablen beschrieben werden. Eine Bilddatei enthält somit nur solche Farben, die durch eine Kombination der drei Variablen erstellt werden können. \cite{Farbraum} Diese Variablenwerte können dann ohne Probleme ausgelesen und miteinander verglichen werden. Zwei der gängigsten Farbräume, der RGB- und der HSV-Farbraum, werden hier miteinander verglichen. 
 \subsubsection{RGB}
-RGB ist der Standard-Farbraum für die digitale Bildwiedergabe. Er setzt sich aus drei Werten für Rot, Grün, und Blau zusammen. Die Werte gehen jeweils von 0 bis 255, wobei die Farbe bei 0 nicht vorhanden ist, und bei 255 die Farbe mit voller Intensität leuchtet. (0, 0, 0) ist somit schwarz und (255, 255, 255) ist weiss. Der gesamte Farbraum lässt sich als Würfel in einem Koordinatensystem darstellen, wobei die Achsen jeweils die Intensität einer Farbe beschreiben (vgl. Abbildung 3).
+RGB ist der Standard-Farbraum für die digitale Bildwiedergabe. Er setzt sich aus drei Werten für Rot, Grün, und Blau zusammen. Die Werte gehen jeweils von 0 bis 255, wobei die Farbe bei 0 nicht vorhanden ist, und bei 255 mit voller Intensität leuchtet. (0, 0, 0) ist somit schwarz und (255, 255, 255) ist weiss. Der gesamte Farbraum lässt sich als Würfel in einem Koordinatensystem darstellen, wobei die Achsen jeweils die Intensität einer Farbe beschreiben (vgl. Abbildung 3).
 \begin{figure}[H]
 \includegraphics[scale=0.5]{RGB_Wuerfel}
-\caption{RGB-Farbraum in einem Koordinatensystem visualisiert mit Achsen für rot, grün und blau. \cite{RGBBild}}
+\caption{RGB-Farbraum als Würfel in einem Koordinatensystem visualisiert mit Achsen für rot, grün und blau. \cite{RGBBild}}
 \end{figure}
- Der RGB-Farbraum ist ein additiver Farbraum. Dies bedeutet, dass bei nichts angefangen wird, und je höher die Werte werden, desto mehr der entsprechenden Farbe vorhanden ist. \cite{RGBHSV} Deshalb wird RGB auch bei vielen Arten von Beleuchtung verwendet, wie Fernseher und Computerbildschirme, die ihre Pixel mit roten, grünen und blauen LEDs beleuchten. Auch der Mensch erkennt Farben auf diese Weise, da im Auge Rezeptoren vorhanden sind, die empfindlich auf die Wellenlängen von Rot, Grün und Blau sind.
+ Der RGB-Farbraum ist ein additiver Farbraum. Dies bedeutet, dass bei nichts angefangen wird, und je höher die Werte werden, desto mehr der entsprechenden Farbe vorhanden ist. \cite{RGBHSV}
+\newline 
+ Deshalb wird RGB auch bei vielen Arten von Beleuchtung verwendet, wie Fernseher und Computerbildschirme, die ihre Pixel mit roten, grünen und blauen LEDs beleuchten. Auch der Mensch erkennt Farben auf diese Weise, da im Auge Rezeptoren vorhanden sind, die empfindlich auf die Wellenlängen von Rot, Grün und Blau sind.
 \subsubsection{HSV}
-Der HSV-Farbraum setzt sich aus den Werten "`Hue"', "`Saturation"' und "`Value"' zusammen. Hue ist ein Wert für den Farbton, und geht standardmässig von 0 bis 179. Ausserdem ist der Wertebereich von Hue kreisförmig, was heisst, dass 0 und 179 nebeneinander sind und es somit kein Anfang oder Ende gibt. "`Saturation"' beschreibt die Sättigung und Intensität der Farbe und geht von 0 bis 255, wobei 0 keine Sättigung und somit Weiss bedeutet und bei 255 die Farbe vollends vorhanden ist. "`Value"' ist ein Mass für die Helligkeit und reicht ebenfalls von 0 bis 255. Wenn der Value bei null ist, dann spielt es keine Rolle was der Farbton ist, und die Farbe wird schwarz. Je höher der Value dann geht, desto heller wird die Farbe. \cite{RGBHSV} Der HSV-Farbraum wird häufig in Form eines Zylinders visualisiert (vgl. Abbildung 4).
-\begin{figure}[H]
+Der HSV-Farbraum setzt sich aus den Werten "`Hue"', "`Saturation"' und "`Value"' zusammen. Hue ist ein Wert für den Farbton, und geht standardmässig von 0 bis 179. Ausserdem ist der Wertebereich von Hue kreisförmig, was heisst, dass 0 und 179 nebeneinander sind und es somit kein Anfang oder Ende gibt.
+\newline
+"`Saturation"' beschreibt die Sättigung und Intensität der Farbe und geht von 0 bis 255, wobei 0 keine Sättigung und somit Weiss bedeutet und bei 255 die Farbe vollends vorhanden ist.
+\newline
+"`Value"' ist ein Mass für die Helligkeit und reicht ebenfalls von 0 bis 255. Wenn der Value bei null ist, dann spielt es keine Rolle was der Farbton ist, und die Farbe wird schwarz. Je höher der Value dann geht, desto heller wird die Farbe. \cite{RGBHSV}
+\newline
+Der HSV-Farbraum wird häufig in Form eines Zylinders visualisiert (vgl. Abbildung 4).
+\begin{figure}[h]
 \includegraphics[scale=0.07]{HSV_Zylinder} 
 \caption{HSV-Farbraum als Zylinder visualisiert mit Saturation als Radius, Value als Höhe und Hue als Winkel. \cite{RGBHSV}}
 \end{figure}
 \subsubsection{Anwendung im Code}
+Das Farbenauslesen und das darauffolgende Zuordnen der Seiten wurde unter Verwendung von RGB folgendermassen im Code implementiert.
+\newline
 Zuerst werden für jedes Feld auf dem Würfel die RGB-Werte von 400 Pixeln in einem 20x20-Quadrat ausgelesen. Danach werden die Durchschnitte davon berechnet und in einer Liste gespeichert.
 \lstinputlisting[language=Python, linerange={2-7}, caption={Auslesen der RGB-Werte der Felder des Rubik's Cubes.}, captionpos=b]{listings.py}
-Als nächstes werden die Seiten einer Mitte zugeordnet. Dafür wird in Zeile 2 für jede Seite eine Schleife initiiert, die die 6 Mitten durchgeht. Für jede Mitte wird nun der Abstand zur Seite im verwendeten Farbraum berechnet. Da RGB ein Farbraum mit kartesischen Koordinaten ist, kann der Abstand mit Hilfe des Satzes des Pythagoras berechnet werden. Somit kann man die Differenzen zwischen den R-, G-, und B-Werten einzeln berechnen und danach die Quadrate davon addieren. Dies geschieht in den Zeilen 5 und 6. Danach wird in Zeile 7 die Wurzel davon gezogen und in einer Liste abgespeichert. In den Zeilen 8-10 wird schliesslich evaluiert, welche Mitte am nächsten ist, und die Seite wird dieser zugeordnet. 
+Als nächstes werden die Seiten einer Mitte zugeordnet. Dafür wird in Zeile 2 eine Schleife initiiert, die für jede Seite die 6 Mitten durchgeht. Für jede Mitte wird damit der Abstand zur Seite im berechnet.
+\newline
+Da RGB ein Farbraum mit kartesischen Koordinaten ist, kann der Abstand mit Hilfe des Satzes des Pythagoras berechnet werden. Somit kann man die Differenzen zwischen den R-, G-, und B-Werten einzeln berechnen und danach die Quadrate davon addieren. Dies geschieht in den Zeilen 5 und 6. Danach wird in Zeile 7 die Wurzel davon gezogen und in einer Liste abgespeichert.
+\newline
+In den Zeilen 8-10 wird schliesslich evaluiert, welche Mitte am nächsten ist, und die Seite wird dieser zugeordnet. 
 \lstinputlisting[language=Python, linerange={10-19}, caption={Zuordnung der Seiten zu einer Mitte.}, captionpos=b]{listings.py}
 \subsubsection{Vergleich}
-Jetzt, wo die Farbräume und Methodik der Zuordnung klar sind, stellt sich die Frage, was die besten Ergebnisse liefert. Hierfür wurden fünf Ideen ausprobiert:
+Um zu untersuchen, was die besten Ergebnisse liefert, wurden fünf verschiedene Ideen ausprobiert und verglichen:
 \begin{enumerate}
   \item Die RGB-Werte verwenden
   \item Die HSV-Werte verwenden
@@ -90,12 +115,12 @@ Jetzt, wo die Farbräume und Methodik der Zuordnung klar sind, stellt sich die F
 Diese fünf Methoden wurden alle auf zehn Bilder von Rubik's Cubes angewandt, und anschliessend wurde ermittelt, wie viele Fehler die Methoden im Schnitt hatten. 
 \begin{figure}[H]
 \includegraphics[scale=0.4]{Fehler_nach_Methode}
-\caption{Durchschnittliche Anzahl Fehler für verschiedene Farbräume.}
+\caption{Durchschnittliche Anzahl Fehler für verschiedene Methoden.}
 \end{figure}
 Wie im obigen Diagramm zu sehen, lieferte die Methode 5 die besten Ergebnisse, mit durchschnittlich 16.6 Fehlern bei 54 Feldern auf einem Würfel. Am zweitbesten war die RGB-Methode, mit jedoch fast doppelt so vielen Fehlern. Danach kamen nahe beieinander die Methoden 3 und 4, und schliesslich mit am meisten Fehlern die Methode 2. Dass die Methoden, die Saturation und/oder Value verwendeten, schlechter abschnitten, wie wenn nur Hue verwendet wurde war zu erwarten. Die Farben auf dem Würfel sind abgesehen von Weiss alle sehr satt und brillant. Wenn nun auf dem Bild eine Seite leicht überbelichtet oder schattig ist, dann verändert sich die Saturation oder der Value des Pixels. Somit werden dann zwei eigentlich identisch-farbige Felder als unterschiedlich angesehen, nur weil die Beleuchtung nicht identisch war. Diese Unterschiede werden bei Methode 5 nicht berücksichtigt, da nur die Hue-Werte verglichen werden. Auch die RGB-Methode erhält auf diese Weise Fehler. Da diese keine dedizierten Variablen für Sättigung und Helligkeit haben, verändern sich alle drei Variablen, wenn ein Feld andere Belichtung hat. Da sich diese Veränderung aber auf drei Variablen aufteilt, sind die einzelnen Werte nicht so weit entfernt, wie die von Saturation und Value. Und da die Quadrate der Entfernungen addiert werden, wirken sich zwei sehr falsche Werte mehr aus, als drei leicht falsche Werte. 
 \begin{figure}[H]
 \includegraphics[scale=0.4]{durchschnittliche_Fehler_nach_Farben}
-\caption{Durchschnittliche Anzahl Fehler für die verschiedenen Farbräume, aufgeteilt nach den einzelnen Farben.}
+\caption{Durchschnittliche Anzahl Fehler für die verschiedenen Methoden, aufgeteilt nach den einzelnen Farben.}
 \end{figure}
 Wenn man die Fehler nun nach Farben aufteilt, sieht man, dass die Methode 5 bei allen Farben die beste ist, ausser bei Weiss, wo RGB besser funktioniert. Dies lässt sich dadurch erklären, dass Weiss im HSV-Farbraum dann entsteht, wenn die Saturation 0 ist. Wenn etwas also komplett weiss ist, dann bedeutet dies, dass der Hue-Wert nicht definierbar ist. Das Programm erkennt somit einen zufälligen Farbton, wenn es ein weisses Feld erkennen muss. Das Programm hat somit keine richtige Möglichkeit, die weissen Felder nur anhand des Farbtons zuzuordnen, weshalb es dort zu überdurchschnittlich vielen Fehlern kommt. 
 \subsection{Saturation/Value weg}
