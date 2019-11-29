@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import math as mt
 import sys
 
 # prepare images
@@ -11,6 +10,8 @@ pics = [cube1, cube2]
 # define stuff
 
 # general
+
+# array of all y/x pairs, at the centers of the tiles
 coordinates = [
     [[441, 340], [400, 244], [361, 177], [342, 265], [326, 334],
      [345, 402], [373, 493], [404, 429], [370, 336]],
@@ -24,6 +25,8 @@ coordinates = [
      [134, 125], [73, 178], [146, 176], [205, 116]],
     [[248, 264], [150, 270], [69, 268], [130, 342], [177, 399],
      [249, 408], [332, 416], [291, 350], [206, 348]]]
+
+# array, in which the HSV values of the tiles are stored
 avgcol = [
     [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
      [0, 0, 0], [0, 0, 0], [0, 0, 0]],
@@ -37,13 +40,82 @@ avgcol = [
      [0, 0, 0], [0, 0, 0], [0, 0, 0]],
     [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
      [0, 0, 0], [0, 0, 0], [0, 0, 0]]]
-colors = ["o", "g", "ggg", "r", "b", "y"]
-tilecol = [["o", "o", "o", "o", "o", "o", "o", "o", "o"],
-           ["o", "o", "o", "o", "o", "o", "o", "o", "o"],
-           ["o", "o", "o", "o", "o", "o", "o", "o", "o"],
-           ["o", "o", "o", "o", "o", "o", "o", "o", "o"],
-           ["o", "o", "o", "o", "o", "o", "o", "o", "o"],
-           ["o", "o", "o", "o", "o", "o", "o", "o", "o"]]
+
+# array with the names of the colors
+# the colors have to be in the order of the middle tiles in the picture:
+# picture1 top, left, right picture 2 bottom, left, right
+# the place, in which "white" should be, can be called anything, because white will be assigned later
+colors = ["orange", "green", "ggg", "red", "blue", "yellow"]
+
+# array in which the final result will be stored
+tilecol = [["nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing"],
+           ["nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing"],
+           ["nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing"],
+           ["nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing"],
+           ["nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing"],
+           ["nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing"]]
+
+# correct solutions to compare with
+correct_1 = [["white", "green", "red", "red", "white", "yellow", "red", "green", "blue"],
+             ["blue", "orange", "orange", "green", "green", "blue", "yellow", "yellow", "orange"],
+             ["orange", "red", "yellow", "orange", "white", "white", "yellow", "blue", "white"],
+             ["orange", "green", "orange", "white", "blue", "blue", "green", "orange", "green"],
+             ["green", "white", "red", "yellow", "blue", "red", "red", "blue", "red"],
+             ["yellow", "yellow", "blue", "white", "green", "red", "white", "orange", "yellow"]]
+correct_2 = [["orange", "blue", "green", "green", "orange", "yellow", "red", "green", "blue"],
+             ["white", "green", "orange", "green", "red", "orange", "yellow", "white", "red"],
+             ["blue", "white", "white", "blue", "yellow", "yellow", "yellow", "red", "yellow"],
+             ["blue", "white", "blue", "yellow", "blue", "blue", "red", "orange", "green"],
+             ["red", "blue", "green", "red", "green", "orange", "green", "yellow", "orange"],
+             ["white", "red", "white", "orange", "orange", "yellow", "yellow", "red", "white"]]
+correct_3 = [["red", "green", "green", "green", "yellow", "blue", "red", "orange", "white"],
+             ["white", "orange", "orange", "blue", "orange", "yellow", "orange", "white", "blue"],
+             ["green", "yellow", "blue", "white", "yellow", "yellow", "yellow", "blue", "orange"],
+             ["yellow", "orange", "blue", "white", "blue", "blue", "green", "red", "yellow"],
+             ["red", "green", "orange", "red", "white", "red", "red", "white", "green"],
+             ["blue", "orange", "green", "yellow", "white", "red", "white", "green", "red"]]
+correct_4 = [["blue", "blue", "blue", "orange", "yellow", "white", "white", "green", "red"],
+             ["orange", "yellow", "orange", "red", "green", "yellow", "yellow", "yellow", "yellow"],
+             ["white", "white", "red", "orange", "red", "white", "yellow", "red", "blue"],
+             ["white", "white", "white", "green", "blue", "blue", "green", "blue", "orange"],
+             ["green", "red", "yellow", "yellow", "blue", "red", "green", "green", "white"],
+             ["orange", "orange", "orange", "blue", "red", "green", "red", "orange", "green"]]
+correct_5 = [["red", "white", "green", "white", "orange", "green", "red", "yellow", "white"],
+             ["yellow", "blue", "orange", "green", "orange", "red", "yellow", "green", "blue"],
+             ["blue", "orange", "blue", "white", "green", "yellow", "yellow", "yellow", "orange"],
+             ["green", "red", "white", "red", "blue", "green", "red", "blue", "yellow"],
+             ["red", "red", "white", "blue", "white", "orange", "white", "blue", "green"],
+             ["yellow", "orange", "blue", "orange", "orange", "yellow", "green", "white", "red"]]
+correct_6 = [["white", "yellow", "white", "blue", "white", "blue", "white", "red", "white"],
+             ["blue", "blue", "orange", "green", "red", "orange", "red", "orange", "blue"],
+             ["orange", "yellow", "red", "orange", "red", "white", "yellow", "yellow", "orange"],
+             ["green", "yellow", "blue", "red", "blue", "red", "green", "white", "yellow"],
+             ["yellow", "blue", "yellow", "white", "blue", "red", "orange", "green", "green"],
+             ["orange", "white", "green", "orange", "green", "green", "yellow", "green", "red"]]
+correct_7 = [["orange", "yellow", "red", "yellow", "orange", "green", "white", "green", "red"],
+             ["yellow", "orange", "orange", "green", "yellow", "red", "blue", "blue", "green"],
+             ["green", "yellow", "red", "orange", "orange", "blue", "yellow", "green", "red"],
+             ["white", "red", "green", "red", "blue", "white", "green", "orange", "orange"],
+             ["red", "white", "white", "blue", "blue", "white", "white", "red", "blue"],
+             ["green", "yellow", "blue", "orange", "yellow", "blue", "red", "white", "white"]]
+correct_8 = [["white", "blue", "yellow", "red", "red", "orange", "red", "yellow", "blue"],
+             ["orange", "blue", "orange", "orange", "yellow", "yellow", "orange", "orange", "yellow"],
+             ["green", "orange", "yellow", "green", "white", "white", "yellow", "white", "orange"],
+             ["white", "green", "green", "white", "blue", "red", "blue", "red", "green"],
+             ["blue", "green", "orange", "yellow", "blue", "green", "white", "blue", "white"],
+             ["red", "red", "green", "yellow", "green", "blue", "red", "white", "red"]]
+correct_9 = [["yellow", "orange", "green", "red", "yellow", "red", "white", "blue", "red"],
+             ["green", "green", "orange", "blue", "blue", "white", "white", "white", "yellow"],
+             ["orange", "orange", "orange", "red", "yellow", "orange", "yellow", "yellow", "blue"],
+             ["blue", "red", "white", "white", "blue", "yellow", "red", "blue", "orange"],
+             ["red", "yellow", "green", "blue", "green", "green", "blue", "green", "white"],
+             ["white", "orange", "red", "white", "red", "green", "orange", "yellow", "green"]]
+correct_10 = [["orange", "orange", "green", "yellow", "green", "yellow", "red", "blue", "orange"],
+              ["white", "blue", "orange", "blue", "yellow", "blue", "white", "white", "green"],
+              ["blue", "red", "blue", "yellow", "yellow", "red", "yellow", "yellow", "white"],
+              ["green", "white", "green", "white", "blue", "green", "blue", "red", "red"],
+              ["yellow", "white", "red", "orange", "white", "green", "white", "green", "blue"],
+              ["orange", "orange", "orange", "red", "red", "orange", "red", "green", "white"]]
 
 # lose white
 white_question = 0
@@ -62,7 +134,10 @@ blackoutvar1 = [0, 0, 0, 0, 0, 0, 0, 0]
 blackoutvar2 = [0, 0, 0, 0, 0, 0, 0, 0]
 
 # evaluate
+# how many tiles of each color are there
 tilenum = [0, 0, 0, 0, 0, 0]
+
+# all distances from each tile to each middle
 distances = [[[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],
@@ -88,39 +163,37 @@ distances = [[[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 0, 0]]]
 
-# probability
-p = 1
-knee = 5  # ratio at which probability is 99%
-const = np.log(100) / knee
-
 # find average color of tiles
 for i in range(2):
     for j in range(3):
         for k in range(9):
             for l in range(3):
                 col = 0
+                # average of 400 pixels
                 for m in range(20):
                     for n in range(20):
-                        col += \
-                            pics[i][coordinates[3 * i + j][k][0] - 10 + m][
-                                coordinates[3 * i + j][k][1] - 10 + n][l]
+                        col += pics[i][coordinates[3 * i + j][k][0] - 10 + m][coordinates[3 * i + j][k][1] - 10 + n][l]
                 avgcol[3 * i + j][k][l] = int(col / 400)
 
 # convert to HSV
 for i in range(6):
     for j in range(9):
+        # convert the RGB values into HSV values
         BGR = np.uint8(
             [[[avgcol[i][j][0], avgcol[i][j][1], avgcol[i][j][2]]]])
         hsv = cv2.cvtColor(BGR, cv2.COLOR_BGR2HSV)
-        avgcol[i][j][0] = hsv[0][0][0] * 255 / 179
+        avgcol[i][j][0] = hsv[0][0][0] * 255 / 179  # make it, so hue ranges also from 0-255
         avgcol[i][j][1] = hsv[0][0][1]
         avgcol[i][j][2] = hsv[0][0][2]
+        # how low saturation and value need to be, needs more testing
         if avgcol[i][j][1] < 70:
             white_question += 1
         if avgcol[i][j][2] < 0:
             black_question += 1
 
 # lose black
+# if there are exactly 9 tiles with a low value,
+# they will all be called "black" and they will be ignored for the rest of the program
 if black_question == 9:
     for i in range(6):
         if avgcol[i][8][2] < blackmid:
@@ -130,20 +203,19 @@ if black_question == 9:
             biggestsat = 0
             biggestsatpos = 100
             for k in range(8):
-                if avgcol[i][j][2] < blackout[k] and blackout[
-                    k] > biggestsat:
+                if avgcol[i][j][2] < blackout[k] and blackout[k] > biggestsat:
                     biggestsat = blackout[k]
                     biggestsatpos = k
             if biggestsatpos < 100:
                 blackout[biggestsatpos] = avgcol[i][j][2]
                 blackoutvar1[biggestsatpos] = i
                 blackoutvar2[biggestsatpos] = j
-    tilecol[blackmidvar][8] = "ba"
+    tilecol[blackmidvar][8] = "black"
     avgcol[blackmidvar][8][1] = 255
-    colors[blackmidvar] = "ba"
+    colors[blackmidvar] = "black"
     tilenum[blackmidvar] = 9
     for i in range(8):
-        tilecol[blackoutvar1[i]][blackoutvar2[i]] = "ba"
+        tilecol[blackoutvar1[i]][blackoutvar2[i]] = "black"
         if avgcol[blackoutvar1[i]][blackoutvar2[i]][1] < 50:
             avgcol[blackoutvar1[i]][blackoutvar2[i]][1] = 255
             white_question -= 1
@@ -151,6 +223,8 @@ elif black_question != 0:
     sys.exit("ERROR!")
 
 # lose white
+# if there are exactly 9 tiles with a low saturation,
+# they will all be called "white" and they will be ignored for the rest of the program
 if white_question == 9:
     for i in range(6):
         if avgcol[i][8][1] < whitemid:
@@ -160,33 +234,33 @@ if white_question == 9:
             biggestsat = 0
             biggestsatpos = 100
             for k in range(8):
-                if avgcol[i][j][1] < whiteout[k] and whiteout[
-                    k] > biggestsat:
+                if avgcol[i][j][1] < whiteout[k] and whiteout[k] > biggestsat:
                     biggestsat = whiteout[k]
                     biggestsatpos = k
             if biggestsatpos < 100:
                 whiteout[biggestsatpos] = avgcol[i][j][1]
                 whiteoutvar1[biggestsatpos] = i
                 whiteoutvar2[biggestsatpos] = j
-    tilecol[whitemidvar][8] = "w"
+    tilecol[whitemidvar][8] = "white"
     tilenum[whitemidvar] = 9
-    colors[whitemidvar] = "w"
+    colors[whitemidvar] = "white"
     for i in range(8):
-        tilecol[whiteoutvar1[i]][whiteoutvar2[i]] = "w"
+        tilecol[whiteoutvar1[i]][whiteoutvar2[i]] = "white"
 elif white_question != 0:
     sys.exit("ERROR")
 
 # evaluate color of each tile
+# each tile will be assigned to the middle, which has the most similar hue value
 for i in range(6):
     for j in range(9):
-        if tilecol[i][j] != "w" and tilecol[i][j] != "ba":
+        if tilecol[i][j] != "white" and tilecol[i][j] != "black":
             col = 200000
             for k in range(6):
-                if tilecol[k][8] != "w" and tilecol[k][8] != "ba":
+                if tilecol[k][8] != "white" and tilecol[k][8] != "black":
                     dist = 0
+                    # because hue is represented in a circle, the distance cannot be bigger than 113
                     if abs(avgcol[i][j][0] - avgcol[k][8][0]) > 113:
-                        dist += 256 - abs(
-                            avgcol[i][j][0] - avgcol[k][8][0])
+                        dist += 256 - abs(avgcol[i][j][0] - avgcol[k][8][0])
                     else:
                         dist += abs(avgcol[i][j][0] - avgcol[k][8][0])
                     distances[i][j][k] = dist
@@ -198,66 +272,32 @@ for i in range(6):
                     tilenum[k] += 1
 
 # correct number of each color
+# if there are too many side-tiles assigned to one middle,
+# the one which is furthest away of said middle, is assigned to another middle, which doesn't have enough side-tiles
 for i in range(6):
     while tilenum[i] > 9:
+        big_dist = 0
+        small_dist = 99999999
         a1 = 0
         a2 = 0
-        col = 0
-        counter = 0
-        small_dist = 99999999
-        breaker = 0
+        b = 0
         for j in range(6):
-            for k in range(8):
+            for k in range(9):
                 if tilecol[j][k] == colors[i]:
-                    for l in range(6):
-                        if tilenum[l] < 9 and distances[j][k][
-                            l] < small_dist:
-                            small_dist = distances[j][k][l]
-                            a1 = j
-                            a2 = k
-                            col = l
-        tilecol[a1][a2] = colors[col]
+                    if big_dist < distances[j][k][i]:
+                        big_dist = distances[j][k][i]
+                        a1 = j
+                        a2 = k
+        for j in range(6):
+            if tilenum[j] < 9:
+                if small_dist > distances[a1][a2][j]:
+                    small_dist = distances[a1][a2][j]
+                    b = j
+        tilecol[a1][a2] = colors[b]
+        tilenum[b] += 1
         tilenum[i] -= 1
-        tilenum[col] += 1
-
-# probability
-for i in range(6):
-    if colors[i] != "ba" and colors[i] != "w":
-        for j in range(i):
-            if colors[j] != "ba" and colors[j] != "w":
-                small_disti = 9999999
-                small_distj = 9999999
-                ai1 = 0
-                ai2 = 0
-                aj1 = 0
-                aj2 = 0
-                dist_out = 500
-                dist_mid = 500
-                for k in range(6):
-                    for l in range(9):
-                        if tilecol[k][l] == colors[i] and distances[k][l][
-                            j] < small_disti:
-                            small_disti = distances[k][l][j]
-                            ai1 = k
-                            ai2 = l
-                        elif tilecol[k][l] == colors[j] and \
-                                distances[k][l][
-                                    i] < small_distj:
-                            small_distj = distances[k][l][i]
-                            aj1 = k
-                            aj2 = l
-                dist_out = abs(avgcol[ai1][ai2][0] - avgcol[aj1][aj2][0])
-                if dist_out > 113:
-                    dist_out = 256 - dist_out
-                dist_mid = abs(avgcol[i][8][0] - avgcol[j][8][0])
-                if dist_mid > 113:
-                    dist_mid = 256 - dist_mid
-                ratio = dist_out / dist_mid
-                prob = 1 / (1 + mt.e ** (-(const * ratio)))
-                p *= prob
 
 print(tilecol)
-print(p)
 cv2.imshow('image', pics[0])
 cv2.imshow('imaggre', pics[1])
 cv2.waitKey(0)
