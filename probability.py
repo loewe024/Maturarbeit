@@ -1,4 +1,9 @@
 # probability
+
+# idea didn't work
+# no good results
+
+
 p = 1
 knee = 5  # ratio at which probability is 99%
 const = np.log(100) / knee
