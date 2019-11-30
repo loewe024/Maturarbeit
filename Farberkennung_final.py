@@ -119,7 +119,7 @@ correct_10 = [["orange", "orange", "green", "yellow", "green", "yellow", "red", 
               ["yellow", "white", "red", "orange", "white", "green", "white", "green", "blue"],
               ["orange", "orange", "orange", "red", "red", "orange", "red", "green", "white"]]
 
-# lose white
+# initialize some variables for: lose white
 white_question = 0
 whitemid = 256
 whitemidvar = 0
@@ -127,7 +127,7 @@ whiteout = [256, 256, 256, 256, 256, 256, 256, 256]
 whiteoutvar1 = [0, 0, 0, 0, 0, 0, 0, 0]
 whiteoutvar2 = [0, 0, 0, 0, 0, 0, 0, 0]
 
-# lose black
+# initialize some variables for: lose black
 black_question = 0
 blackmid = 256
 blackmidvar = 0
@@ -136,10 +136,11 @@ blackoutvar1 = [0, 0, 0, 0, 0, 0, 0, 0]
 blackoutvar2 = [0, 0, 0, 0, 0, 0, 0, 0]
 
 # evaluate
-# how many tiles of each color are there
+# array which holds info on how many tiles of each color there are
 tilenum = [0, 0, 0, 0, 0, 0]
 
 # all distances from each tile to each middle
+# distance form a tile to a middle is how far apart their hue values are
 distances = [[[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],
@@ -171,7 +172,8 @@ for i in range(2):
         for k in range(9):
             for l in range(3):
                 col = 0
-                # average of 400 pixels
+                # average of 400 pixels ( more, and there's a risk, that pixels form other tiles are used,
+                # less and it's less accurate)
                 for m in range(20):
                     for n in range(20):
                         col += pics[i][coordinates[3 * i + j][k][0] - 10 + m][coordinates[3 * i + j][k][1] - 10 + n][l]
@@ -251,7 +253,7 @@ if white_question == 9:
 elif white_question != 0:
     sys.exit("ERROR")
 
-# evaluate color of each tile
+# evaluate middle of each tile
 # each tile will be assigned to the middle, which has the most similar hue value
 for i in range(6):
     for j in range(9):
@@ -273,7 +275,7 @@ for i in range(6):
                 if tilecol[i][j] == colors[k]:
                     tilenum[k] += 1
 
-# correct number of each color
+# correct number for each middle
 # if there are too many side-tiles assigned to one middle,
 # the one which is furthest away of said middle, is assigned to another middle, which doesn't have enough side-tiles
 for i in range(6):
