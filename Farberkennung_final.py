@@ -11,7 +11,7 @@ pics = [cube1, cube2]
 
 # general
 
-# array of all y/x pairs, at the centers of the tiles
+# coordinates of the centers of each tile were read out with "gimp" and then stored in this array
 coordinates = [
     [[441, 340], [400, 244], [361, 177], [342, 265], [326, 334],
      [345, 402], [373, 493], [404, 429], [370, 336]],
@@ -41,11 +41,13 @@ avgcol = [
     [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],
      [0, 0, 0], [0, 0, 0], [0, 0, 0]]]
 
-# array with the names of the colors
-# the colors have to be in the order of the middle tiles in the picture:
-# picture1 top, left, right picture 2 bottom, left, right
-# the place, in which "white" should be, can be called anything, because white will be assigned later
-colors = ["orange", "green", "ggg", "red", "blue", "yellow"]
+# array with the names of the six colors the names can be freely chosen, because the program doesn't recognise the
+# absolute colors they were named after the colors that are really on the cube, so it's easier to compare the results
+# with the solutions and the pictures
+# white is not named white right now, because the program is able to recognise white tiles as "white"
+# the order in which the colors must be entered is dependant on the positions of the middle tiles in the pictures
+# the order is: picture one top, left, right   picture 2 bottom, left, right
+colors = ["orange", "green", "white will be assigned later in the program", "red", "blue", "yellow"]
 
 # array in which the final result will be stored
 tilecol = [["nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing", "nothing"],

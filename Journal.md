@@ -154,4 +154,22 @@ allgemeine Analyse von HSV:
 
 #### 26.10.2019
 * neuse Dokument für finalen code gemacht
-* alled darin aufgeräumt/übersichtlicher gemacht
+* alles darin aufgeräumt/übersichtlicher gemacht
+
+#### 02.11.2019 - 03.11.2019
+* neues Set-up für Bilder
+* neue Bilder gemacht
+* alle verschiedenen Methoden auf die Bilder angewendet und alle Daten für Bericht gesammelt
+
+#### 09.11.2019 - 16.11.2019
+* angefangen Bericht zu schreiben
+* erste Version des Berichts (ohne jegliche Formatierung) geschrieben
+
+#### 23.11.2019 - 01.12.2019
+* Überarbeiten des Berichts
+* Neues Unterkapitel, welches den Rubik's Cube erklärt
+* neue Code-Snippets in separatem File erstellt
+* Erklärung der Snippets überarbeitet/neu geschrieben
+* Literatur + Titelblatt + Bildunterschriften erstellt
+* Code kommentiert
+* Arbeit gedrukt/gebunden
