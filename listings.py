@@ -79,7 +79,8 @@ for color in range(6):
                 if tilecol[cubeside][tile] == colors[color]:
                     for diffcol in range(6):
                         if tilenum[diffcol] < 9 and distances[cubeside][
-                            tile][diffcol] < small_dist: # Abstand wird verglichen
+                            tile][
+                            diffcol] < small_dist: # Abstand wird verglichen
                             small_dist = distances[cubeside][tile][diffcol]
                             sidepos = side # Feld wird gespeichert
                             tilepos = tile
