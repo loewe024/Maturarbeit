@@ -4,19 +4,19 @@ for rgb in range(3): # R-, G-, und B-Werte einzeln auslesen
     for m in range(20):
         for n in range(20):
             col += picture[x - 10 + m][y - 10 + n][rgb] # Werte einzelner Pixel addieren
-    avgcol[side][tile][rgb] = int(col / 400) # Durchschnitt in Liste speichern
+    avgcol[cubeside][tile][rgb] = int(col / 400) # Durchschnitt in Liste speichern
 
 # evaluate color of each tile
 col = 200000
 for middle in range(6): # sechs Mitten durchgehen
     dist = 0
     for rgb in range(3):
-        dist += (avgcol[side][tile][rgb] -
+        dist += (avgcol[cubeside][tile][rgb] -
                  avgcol[middle][8][rgb]) ** 2 # Quadrate addieren
-    distances[side][tile][middle] = mt.sqrt(dist)
+    distances[cubeside][tile][middle] = mt.sqrt(dist)
     if dist < col: # testen, ob Mitte am naechsten ist
         col = dist
-        tilecol[side][tile] = colors[middle]
+        tilecol[cubeside][tile] = colors[middle]
 
 
 
@@ -47,11 +47,11 @@ for color in range(6):
         small_dist = 99999999
         sidetpos = 0
         tilepos = 0
-        for side in range(6):
+        for cubeside in range(6):
             for tile in range(9):
                 if tilecol[side][tile] == colors[color]:
-                    if big_dist < distances[side][tile][color]: # Vergleich von aktuell groesster Distanz und Distanz von Seite
-                        big_dist = distances[side][tile][color]
+                    if big_dist < distances[cubeside][tile][color]: # Vergleich von aktuell groesster Distanz und Distanz von Seite
+                        big_dist = distances[cubeside][tile][color]
                         sidetpos = side
                         tilepos = tile
         for diffcol in range(6):
@@ -76,11 +76,11 @@ for color in range(6):
         breaker = 0
         for side in range(6):
             for tile in range(8):
-                if tilecol[side][tile] == colors[color]:
+                if tilecol[cubeside][tile] == colors[color]:
                     for diffcol in range(6):
-                        if tilenum[diffcol] < 9 and distances[side][tile][
-                            diffcol] < small_dist: # Abstand wird verglichen
-                            small_dist = distances[side][tile][diffcol]
+                        if tilenum[diffcol] < 9 and distances[cubeside][
+                            tile][diffcol] < small_dist: # Abstand wird verglichen
+                            small_dist = distances[cubeside][tile][diffcol]
                             sidepos = side # Feld wird gespeichert
                             tilepos = tile
                             colpos = diffcol # Farbe wird gespeichert
