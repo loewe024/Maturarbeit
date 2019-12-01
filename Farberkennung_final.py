@@ -189,9 +189,11 @@ for i in range(6):
         avgcol[i][j][0] = hsv[0][0][0] * 255 / 179  # make it, so hue ranges also from 0-255
         avgcol[i][j][1] = hsv[0][0][1]
         avgcol[i][j][2] = hsv[0][0][2]
-        # how low saturation and value need to be, needs more testing
+        # counters for how many tiles have low saturation or low value
+        # the "70" has to be tuned for each picture
         if avgcol[i][j][1] < 70:
             white_question += 1
+            # low value disabled, because the used cube doesn't have black, so it couldn't get tested enough
         if avgcol[i][j][2] < 0:
             black_question += 1
 
